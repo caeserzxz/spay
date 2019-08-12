@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title>我的团队</title>
+</head>
+
+<body>
+    <div class="page myTeam" id="vue-app">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">我的团队</div>
+                <div class="header-right">
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells weui-cells_form top">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <img src="__VPAY__/assets/images/search.png" alt="">
+                    <input class="weui-input fs28 color_6" type="text" placeholder="请输入UID" v-model="search">
+                </div>
+                <div class="weui-cell__ft" @click="searchClick()">
+                    <span class="fs28 color_3">搜索</span>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd">
+            <!-- 页面内容 -->
+            <div class="canterBox">
+                <div class="weui-cells">
+
+                    <template v-for="(item, index) in lst">
+
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <div class="fs28 color_3 teanName" v-text="'姓名：' + item.user_name"></div>
+                                <p class="fs26 color_3">
+                                    <span v-text="'团队总业绩 : ' + item.total"></span>
+                                    <span v-text="'UID : ' + item.user_id"></span>
+                                </p>
+                                <p class="fs26 color_3">
+                                    <span v-text="'手机号码 : ' + item.mobile"></span>
+                                    <span v-text="'团队总人数 : ' + item.count"></span>
+                                </p>
+                                <span class="fs24 color_9" v-text="'绑定关系的时间：' + item.reg_time"></span>
+                            </div>
+                        </div>
+
+                    </template>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {include file="public/js"}
+    <script>
+        var lst = getHtml('{$lst}');
+        var lst = JSON.parse(lst);
+
+        // vue 初始化
+        var vue = new Vue({
+            el: '#vue-app',
+            data: {
+                lst: lst.lst,
+                currentPage: lst.currentPage,
+                lastPage: lst.lastPage,
+                search: '', // 搜索条件
+            },
+
+            // 第一次加载钩子
+            mounted: function () {
+                this.init();
+            },
+
+            // 计算钩子
+            // watch:{
+            //     search: function(news, old){
+            //         console.log(news);
+            //         console.log(old);
+            //     }
+            // },
+
+            // 函数
+            methods: {
+
+                init : function () {
+                    var self = this;
+                },
+
+                searchClick: function(){
+                    var self = this;
+                    self.currentPage = 1;
+                    self.loadData(function(info){
+                        self.lst      = info.lst;
+                        self.lastPage = info.lastPage;
+                    });
+                },
+
+                loadData: function(CallBack) {
+                    var self = this;
+                    var obj = {};
+                    if(self.search) obj.userId = self.search;
+                    obj.page = self.currentPage;
+                    var index = layer.load();
+                    $.post('{:url('')}', obj, function(info) {
+                        layer.close(index);
+                        var data = info.data;
+                        if(typeof CallBack == 'function') return CallBack(data);
+
+                        self.lst = self.lst.concat(data.lst);
+
+                    }, 'json');
+                },
+            }
+        });
+        pagesFun();
+    </script>
+</body>
+
+</html>

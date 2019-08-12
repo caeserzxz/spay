@@ -1,0 +1,37 @@
+<table class="table table-striped  m-b-none">
+<thead>
+<tr>
+	<th class="th-sortable">用户id</th>
+    <th>用户姓名</th>
+    <th>用户等级</th>
+    <th>父级id</th>
+</tr>
+</thead>
+<tbody>
+
+{volist name="data.list" id="vo" }
+    <tr>
+        <td>{$vo.user_id}</td>
+        <td>{$vo.user_name}</td>
+        <td>{:getUserLevel($vo.level_id)}</td>
+        <td>{$vo.pid == 0 ? '没有父级' : $vo.pid}</td>
+    </tr>
+
+    {if condition="count($vo['child']) gt 0"}
+        {volist name="$vo['child']" id="cv" }
+            <tr>
+                <td>{:getTreeLine($cv.lev) . ' ' . $cv.user_id}</td>
+                <td>{$cv.user_name}</td>
+                <td>{:getUserLevel($cv.level_id)}</td>
+                <td>{$cv.pid}</td>
+            </tr>
+        {/volist}
+    {/if}
+{/volist}
+</tbody>
+</table>
+{empty name="data.list"}
+<table width="100%" >
+ 	<tr><td height="300" colspan="8" align="center" valign="middle" >没有相关数据！</td></tr>
+</table>
+{/empty}

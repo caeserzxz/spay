@@ -1,0 +1,38 @@
+<table class="table table-bordered table-striped ">
+    <thead class="flip-content bordered-palegreen">
+    <tr>
+        <th >ID</th>
+        <th >商品名/分类名</th>
+        <th >用户名</th>
+        <th >图片</th>
+        <th >评论时间</th>
+        <th >状态</th>
+        <th >操作者</th>
+        <th >操作</th>
+    </tr>
+    </thead>
+    <tbody>
+        {volist name="data.list" id="item"}
+        <tr>
+            <td style="text-align: center">{$item['id']}</td>
+            <td >{$item['by_name']}</td>
+            <td >{$item['user_name']}</td>
+            <td ><a href="javascript:;" class="{$item.is_imgs|tplckval='=1','active'}" ><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a></td>
+            <td >{$item['create_time']|dateTpl}</td>
+            <td ><a href="javascript:;" data-remote="{:url('ajaxEdit',array('id'=>$item['id'],'field'=>'status'))}" class="{$item.status|tplckval='=2','active'}"  data-toggle="class" data-ajax="true"><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a></td>
+             <td >{$item['admin_id']|adminInfo}</td>
+            <td ><a href="{:url('info',array('id'=>$item['id']))}"  title="编辑" class="fa fa-edit m-xs" ></a></td>
+        </tr>
+         <tr>
+            <td colspan="8">评论内容：{$item['content']}</td>
+        </tr>
+        {/volist}
+    </tbody>
+</table>
+{empty name="data.list"}
+<table width="100%">
+    <tr>
+        <td height="300" colspan="8" style="text-align: center" valign="middle">没有相关数据！</td>
+    </tr>
+</table>
+{/empty}

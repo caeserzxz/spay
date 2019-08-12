@@ -1,0 +1,124 @@
+{extend name="layouts@base" /}
+{block name="head"}
+<link rel="stylesheet" href="__STATIC__/mobile/default/css/my.css" />
+{/block}
+{block name='pageType'}evaluating{/block}
+{block name="main" }
+
+ <div class="page-bd">
+        <!-- 页面内容-->
+        <div class="block">
+          <div class="title fs32 fw_b color_3">商品信息</div>
+          <a href="" class="goodsBox">
+            <img src="" alt=""> 
+            <div class="info">
+              <div class="name fs28 color_3 textline_2 goods_name"></div>
+              <div class="type fs28 color_9 sku"></div>
+              <div class="infoBott">
+                <div class="money">
+                    <div class="color_3 fs24 num"><p class="fw_b fm_p">￥</p><em class="fs36 price_a"></em><p class="price_b"></p></div>
+                </div>
+              </div>
+            </div>                  
+          </a>
+        </div>
+        <div class="block">
+          <div class="title fs32 fw_b color_3">评价</div>
+          <textarea placeholder="请输入您的评价~" class="fs28 color_3" rows="4" maxlength="100" id="textBox"></textarea>
+          <span class="textlength fs28 color_9 num" id="wordNum">0/100</span>
+        </div>
+        <div class="block">
+          <div class="uploading">
+            <div class="title fs32 fw_b color_3">上传照片</div>
+            <div class="uploadBox" >
+              
+               <div class="Box">
+                  <img src="__STATIC__/mobile/default/images/addImg.png" alt="" class="imgBox">
+                  <input type="file" class="uploadInput" onchange="uploadFile(this,event)">                  
+                </div>
+                <div c></div>
+            </div>
+          </div>
+        </div>
+        <div class="butt">
+          <span class="fs32 fw_b color_w BGcolor_r postBtn">提交</span>
+        </div>
+</div>
+
+
+{/block}
+
+{block name="footer"}
+ <script>
+    countTxtEvent("textBox","wordNum",100)
+	jq_ajax('{:url("shop/api.comment/getInfo",["rec_id"=>$rec_id])}','',function(res){
+		if (res.code == 0){
+			_alert(res.msg);
+			return false;	
+		}
+		$('.goodsBox').attr('href','{:_url("shop/goods/info",["id"=>"【res.data.goods_id】"])}');
+		$('.goodsBox').find('img').attr('src',res.data.pic);
+		$('.goodsBox').find('.goods_name').html(res.data.goods_name);
+		$('.goodsBox').find('.sku').html(res.data.sku_name);
+		$('.goodsBox').find('.price_a').html(res.data.exp_price[0]);
+		$('.goodsBox').find('.price_b').html('.'+res.data.exp_price[1]);
+	});
+
+var isPost = false
+var fd = new FormData();
+var imgNum = 0;
+$('.postBtn').click(function(){
+	//console.log(fd.get("imgfile["+imgNum+"]"));
+	var re = /[\u4E00-\u9FA5]/g; //测试中文字符的正则
+	var content = $('#textBox').val();
+	if (re.test(content)){ //使用正则判断是否存在中文	
+		if (content.match(re).length <= 10) { //返回中文的个数
+			_alert("评论不能小于10个汉字.");
+			return false;
+		}
+	}else{
+		_alert("评论不能小于10个汉字.");
+		return false;
+	}
+	fd.append("rec_id", {$rec_id});
+	fd.append("content", content);
+	
+	$.ajax({
+		  url: '{:url("shop/api.comment/post")}',
+		  type: 'post',
+		  processData: false,
+		  contentType: false,
+		  data: fd,
+		  success: function (res) {
+			 if (res.code == 0){
+				  _alert(res.msg);
+				  return false;	
+			  }
+			  _alert(res.msg,'{:url("shop/comment/index")}');			  
+		  }
+	})
+
+
+})
+//删除上传图片
+$('.uploadBox').on('click','.closeImg',function(){
+	$(this).parent().remove();
+	fd.delete("imgfile["+$(this).data('imgnum')+"]");
+})
+//选择上传图片
+function uploadFile(_this,e){	
+	compress(e, function(base64Img){
+		if (imgNum > 6){
+			_alert('最多允许上传6张图片.');
+			return false;	
+		}
+		imgNum++;
+		fd.append("imgfile["+imgNum+"]", base64Img);
+		$(_this).parent().before('<div class="Box"><img src="'+base64Img+'" alt="" class="imgBox"><img src="__STATIC__/mobile/default/images/closeImg.png" alt="" data-imgnum="'+imgNum+'" class="closeImg"></div>');
+	})
+
+}
+
+
+    </script>
+{/block}

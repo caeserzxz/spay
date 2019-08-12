@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title>今日需收款</title>
+</head>
+
+<body>
+    <div class="page dealData">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">今日需收款</div>
+                <div class="header-right">
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd">
+            <!-- 页面内容 -->
+            <div class="title fs26 color_3">
+                对方账号 :{$pay_info.uid}
+            </div>
+            <div class="block fs28">
+                <div><span class="color_3">打款人：</span><span class="color_6">{$pay_info.wx_name}</span></div>
+                <!--<div><span class="color_3">打款人手机：</span><span class="color_6">{$user_personal.mobile}</span></div>-->
+                <div><span class="color_3">开户银行：</span><span class="color_6">{$pay_info.bank_name}</span></div>
+                <div><span class="color_3">银行卡号：</span><span class="color_6">{$pay_info.bank_number}</span></div>
+                <div><span class="color_3">支付宝：</span><span class="color_6">{$pay_info.alipay_number}</span></div>
+                <div><span class="color_3">打款金额：</span><span class="color_6">￥{$order.money}</span></div>
+                <div><span class="color_3">对方手机号：</span><span class="color_6">{$user_info.mobile}</span></div>
+                <!-- 状态3 -->
+                <!--<div><span class="color_3">打款二维码：</span><img src="{$pay_info.code_img}" alt=""></div>-->
+                {if condition="$order.voucher neq ''"}
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-uploader">
+                        <div class="weui-uploader__bd">
+                            <img class="img" style="width: 340px;height: 450px;" src="__VPAY__/upload/voucher/{$order.voucher}" alt="">
+                        </div>
+                    </div>
+                </div>
+                {/if}
+                <!-- 状态3 -->
+            </div>
+            {if condition="$order.status eq 2 and $order.order_status eq 1"}
+                <div class="butBox">
+                    <div class="but fw_b color_w BGcolor_8">等待对方确认打款</div>
+                </div>
+            {elseif condition="$order.status eq 2 and $order.order_status eq 3" /}
+                <div class="butBox" onclick="update_status({$order.m_id},4)">
+                    <div class="but fw_b color_w">点击后确认收款</div>
+                </div>
+            {elseif condition="$order.status eq 4" /}
+                <div class="butBox">
+                    <div class="but fw_b color_w">收款已完成</div>
+                </div>
+            {/if}
+            {if condition="$order.order_status eq 3 AND $order.status neq 4"}
+                <div class="butBox">
+                    <div class="but fw_b color_w" onclick="appeal({$order.id});">申诉</div>
+                </div>
+            {/if}
+            <!-- 状态1 -->
+            <!--<div class="butBox">-->
+                <!--<div class="but fw_b color_w">点击后确认收款</div>-->
+            <!--</div>-->
+            <!-- 状态1 -->
+            <!-- 状态2 -->
+            <!--<div class="butBox">-->
+                <!--<div class="but fw_b color_w BGcolor_8">等待对方确认打款</div>-->
+            <!--</div>-->
+            <!-- 状态2 -->
+            <!-- 状态3 -->
+            <!--<div class="butBox">-->
+                <!--<div class="but fw_b color_w">收款已完成</div>-->
+            <!--</div>-->
+            <!-- 状态3 -->
+        </div>
+    </div>
+    {include file="public/js"}
+
+</body>
+<script>
+    function update_status(id,status){
+        $.ajax({
+            'url':"{:url('/vpay/MutualBilling/update_matching_status')}",
+            'type':'post',
+            'data':{'m_id':id,'status':status},
+            'dataType':'json',
+            'success':function(data){
+                console.log(data);
+                // return false;
+                if(data.status==1){
+                    layer.msg(data.msg, { icon: 1, time: 2000 }, function () {
+                        window.location.reload();
+                    });
+                }else{
+                    layer.msg(data.msg, { icon: 5, time: 2000 });
+                    return false;
+                }
+            }
+        });
+    }
+
+    function appeal(id){
+        $.ajax({
+            'url':"{:url('/vpay/MutualBilling/complain_order')}",
+            'type':'post',
+            'data':{'id':id},
+            'dataType':'json',
+            'success':function(data){
+                if(data.status==1){
+                    layer.msg(data.msg, { icon: 1, time: 2000 }, function () {
+                        window.location.reload();
+                    });
+                }else{
+                    layer.msg(data.msg, { icon: 5, time: 2000 });
+                    return false;
+                }
+            }
+        });
+    }
+</script>
+</html>

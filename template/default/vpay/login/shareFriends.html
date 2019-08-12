@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title>分享给好友</title>
+</head>
+
+<body>
+    <div class="page share">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">分享给好友</div>
+                <div class="header-right">
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd">
+            <!-- 页面内容 -->
+            <div class="info">
+                <img src="__VPAY__/upload/headimgurl/{$user.headimgurl}" alt="">
+                <div class="fs26 color_w">
+                    <span>{$user.user_name}向您分享</span>
+                    <span>UID: {$user.user_id}</span>
+                </div>
+            </div>
+            <div class="Box">
+                <img src="__STATIC__/qrcode/{$code}" alt="">
+                <span class="fs26 color_w">扫描上面的二维码，立即免费注册使用</span>
+                {if condition="empty($pid)"}
+                    <p class="fs26 color_w" onclick="copyUrl2();">复制分享链接地址发给好友</p>
+                {/if}
+                <textarea  id="biao1" style="z-index: -1;" >{$qr_url}</textarea>
+            </div>
+        </div>
+    </div>
+    {include file="public/js"}
+
+</body>
+<script>
+    function copyUrl2()
+    {
+        var Url2=document.getElementById("biao1");
+        Url2.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        // alert("已复制好，可贴粘。");
+        layer.msg("已复制好，可贴粘。");
+
+    }
+</script>
+</html>

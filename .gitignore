@@ -1,0 +1,9 @@
+.idea
+composer.lock
+*.log
+runtime
+/.idea
+*.DS_Store
+/public/upload
+/public/static/qrcode
+config/database.php

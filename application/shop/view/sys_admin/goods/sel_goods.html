@@ -1,0 +1,60 @@
+<script type="text/html" id="selGoods_tpl"> 
+<div class="m-b">
+     <input id="{{select_type}}_keyword" type="text" class="input-medium" placeholder="商品名称/SN" aria-invalid="false">
+    
+     <button class="btn btn-default fa fa-search" title="搜索" type="button" onclick="searchGoods('{{select_type}}')" ></button>
+ 
+      <select id="{{select_type}}_select" class="m-r" style="width:250px;" data-toggle="select2" >
+         <option value="">选择商品</option>
+      </select>
+
+    <a href="javascript:;" title="增加" class="btn btn-default  fa fa-plus" onclick="selLinkGoods('{{select_type}}')"></a>
+</div>
+
+
+	<table class="table table-bordered table-striped " style="width:800px;">
+        <thead>
+            <tr>
+                <th width="150">商品SN</th>
+                <th>商品名称</th>
+                <th width="70">操作</th>
+            </tr>
+        </thead>
+        <tbody id="{{select_type}}_box">
+		{{each goodsList as item index}}
+         <tr id="{{select_type}}_tr_{{item.goods_id}}"><td><input name="{{select_type}}_id[]" type="hidden" value="{{item.goods_id}}" />{{item.goods_sn}}</td><td>{{item.goods_name}}</td><td><a href="javascript:;" title="删除" class="fa fa-remove m-xs" onclick="delLinkGoods('{{select_type}}',{{item.goods_id}})" ></a></td></tr>
+		 {{/each}}
+        </tbody>
+    </table>
+</div>   
+</script>
+<script type="text/javascript">
+function searchGoods(select_type){
+	var arr = new Object();
+	arr.keyword = $('#'+select_type+'_keyword').val();
+	arr.min_search = 1;
+	$('#'+select_type+'_select').html('<option value="">选择商品</option>');
+	var res = jq_ajax('{:url("shop/sys_admin.goods/pubSearch")}',arr);
+	$.each(res.list, function(i,value){
+		$('#'+select_type+'_select').append('<option value="'+value.goods_id+'" data-goods_sn="'+value.goods_sn+'">'+value.goods_name+'</option>');
+	})
+}
+function selLinkGoods(select_type){
+	var goods_id = $('#'+select_type+'_select').val();
+	if (goods_id < 1) return false;
+	var isrep = false;
+	$('#'+select_type+'_box').find('input').each(function(){
+		if (goods_id == $(this).val()) return isrep = true;
+	})
+	if (isrep == true) return _alert('列表中已存在相关商品');
+	var goods_name = $('#'+select_type+'_select').find("option:selected").text();
+	var goods_sn = $('#'+select_type+'_select').find("option:selected").data('goods_sn');
+	$('#'+select_type+'_box').append('<tr id="'+select_type+'_tr_'+goods_id+'"><td><input name="'+select_type+'_id[]" type="hidden" value="'+goods_id+'" />'
+						+goods_sn+'</td><td>'+goods_name+'</td>'
+						+'<td><a href="javascript:;" title="删除" class="fa fa-remove m-xs" onclick="delLinkGoods(\''+select_type+'\','+goods_id+')" ></a>'
+						+'</td></tr>');
+}
+function delLinkGoods(select_type,goods_id){
+	$('#'+select_type+'_tr_'+goods_id).remove();
+}
+</script>

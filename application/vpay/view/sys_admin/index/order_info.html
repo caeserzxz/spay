@@ -1,0 +1,222 @@
+{extend name="mainadmin@layouts/base" /}
+{block name="main" }
+
+<header class="header  b-b clearfix">
+     <div class="page-breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="fa fa-ellipsis-v"></i>
+                    <strong>匹配详情</strong>
+                </li>                                  
+            </ul>
+           <a class="text-muted pull-right pointer p-r m-t-md" data-toggle="back" title="返回"><i class="fa fa-reply"></i></a>
+        </div>
+</header>
+<section class="scrollable  wrapper">
+
+
+                <section class="panel panel-default">
+                  <!--<header>-->
+                        <!--<ul class="nav nav-tabs">-->
+                            <!--<li class="active"><a href="#tabinfo" data-toggle="tab">帐户信息</a></li>                            -->
+                            <!--&lt;!&ndash;<li><a href="#tabbank" data-toggle="tab">会员资料</a></li>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<li><a href="#tabdescribe" data-toggle="tab">地址信息</a></li>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<li><a href="#superior" class="superior_tab" data-toggle="tab">上级关系树</a></li>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<li><a href="#tabchain" class="tabchain_tab" data-toggle="tab">下级关系树(九级团队人数 - {$teamCount})</a></li>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<li><a href="#stat" class="stat_tab" data-toggle="tab">业绩统计</a></li>&ndash;&gt;-->
+                        <!--</ul>-->
+                  <!--</header>-->
+
+                  <form class="form-horizontal form-validate" method="post" action="" style="padding:0;">
+                       <div class="tab-content">
+                            <div class="tab-pane active" id="tabinfo">
+                                <div class="form-group">
+                                    <label class="control-label">订单id：</label>
+                                    <div class="col-sm-3 "><label>{$order.b_id}</label></div>
+                                </div>
+                                 <div class="form-group">
+                                    <label class="control-label">收款状态：</label>
+                                    <div class="col-sm-3">
+                                        <label>
+                                            {if condition="$order.status eq 1"}
+                                                待匹配
+                                            {elseif condition="$order.status eq 2" /}
+                                                匹配中
+                                            {elseif condition="$order.status eq 3" /}
+                                                冻结
+                                            {elseif condition="$order.status eq 4" /}
+                                                成功
+                                            {elseif condition="$order.status eq 5" /}
+                                                失败
+                                            {/if}
+                                        </label>
+                                    </div>
+
+                                     <label class="control-label">打款状态：</label>
+                                     <div class="col-sm-3">
+                                         <label>
+                                             {if condition="$order.order_status eq 1"}
+                                             匹配中
+                                             {elseif condition="$order.order_status eq 2" /}
+                                             冻结
+                                             {elseif condition="$order.order_status eq 3" /}
+                                             成功
+                                             {elseif condition="$order.order_status eq 4" /}
+                                             失败
+                                             {/if}
+                                         </label>
+                                     </div>
+                                 </div>
+
+
+                                 <div class="line line-dashed line-lg pull-in"></div>
+                                 <div class="form-group">
+                                    <label class="control-label">打款人id：</label>
+                                    <div class="col-sm-3">
+                                        <label>
+                                            {$order.uid}
+                                        </label>
+                                    </div>
+
+                                     <label class="control-label">收款人id：</label>
+                                     <div class="col-sm-5">
+                                         <label >
+                                             {$order.user_id}
+                                         </label>
+                                     </div>
+                                 </div>
+
+                                <div class="form-group">
+                                    <label class="control-label">排单时间：</label>
+                                    <div class="col-sm-3"><label><?php echo date('Y-m-d H:i',$order['create_time']);?></label></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label">排单金额：</label>
+                                    <div class="col-sm-3">
+                                        <label>
+                                            {$order.money}
+                                        </label>
+                                    </div>
+                                </div>   
+                               <div class="form-group">
+                                  <label class="control-label">创建匹配时间：</label>
+                                  <div class="col-sm-9"  >
+                                  <label>
+                                      {if condition="$order['add_time'] neq ''"}
+                                       <?php echo date('Y-m-d H:i',$order['add_time']);?>
+                                      {/if}
+                                  </label>
+                                  </div>
+                               </div>
+                                <div class="form-group">
+                                    <label class="control-label">匹配时间：</label>
+                                    <div class="col-sm-3">
+                                        <label>
+                                            {if condition="$order['matching_time'] neq '' "}
+                                             <?php echo date('Y-m-d H:i',$order['matching_time']);?>
+                                            {/if}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">完成时间：</label>
+                                    <div class="col-sm-3">
+                                        <label>
+                                            {if condition="$order['complete_time'] neq '' "}
+                                             <?php echo date('Y-m-d H:i',$order['complete_time']);?>
+                                            {/if}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">失败时间：</label>
+                                    <div class="col-sm-3">
+                                        <label>
+                                            {if condition="$order['examine_time'] neq '' "}
+                                             <?php echo date('Y-m-d H:i',$order['examine_time']);?>
+                                            {/if}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">冻结时间：</label>
+                                    <div class="col-sm-3">
+                                        <label>
+                                            {if condition="$order['frozen_time'] neq '' "}
+                                             <?php echo date('Y-m-d H:i',$order['frozen_time']);?>
+                                            {/if}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">优先级：</label>
+                                    <div class="col-sm-3">
+                                        <label>
+                                            {if condition="$order.priority_level eq 1"}
+                                                解冻
+                                            {elseif condition="$order.priority_level eq 2" /}
+                                                正常
+                                            {elseif condition="$order.priority_level eq 3" /}
+                                                马甲
+                                            {/if}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">打款凭证：</label>
+                                    <div class="col-sm-6">
+                                        <label>
+                                            {if condition="$order['voucher'] neq ''"}
+                                            <!--<img src="__VPAY__/upload/{$order.voucher}" alt="">-->
+                                            <img src="__VPAY__/upload/voucher/{$order.voucher}" class="img-responsive" alt="Responsive image">
+                                            {/if}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="line line-dashed line-lg pull-in"  style="width:99%;"></div>
+                                <div class="form-group">
+                                    <label class="control-label"></label>
+                                    <div class="controls">
+                                        <button type="button" class="btn btn-primary" onclick="examine(1,{$order.b_id});" >完成</button>
+                                        <button type="button" class="btn btn-default" onclick="examine(2,{$order.b_id});" >失败</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                       </div>
+
+                   </form>
+                </section>
+
+         
+        </section>
+    </section>
+
+
+
+<script type="text/javascript">
+    function examine(type,id){
+        $.ajax({
+            'url':"",
+            'type':'post',
+            'data':{'type':type,'id':id},
+            'dataType':'json',
+            'success':function(data){
+                console.log(data);
+                if(data.status==1){
+                    layer.msg(data.msg, { icon: 1, time: 2000 }, function () {
+                        window.location.reload();
+                    });
+                }else{
+                    layer.msg(data.msg, { icon: 5, time: 2000 });
+                    return false;
+                }
+            }
+        });
+    }
+</script>
+
+   
+{/block}
+

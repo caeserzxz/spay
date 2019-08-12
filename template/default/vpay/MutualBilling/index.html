@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title>交易市场</title>
+</head>
+
+<body>
+    <div class="page Withdraw">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">交易市场</div>
+                <div class="header-right">
+                    <a href="{:url('User/couponDetails')}" class="dataBox">
+                        <p class="fs24 color_6">EAC券记录</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd Sea">
+            <!-- 页面内容 -->
+            <div class="top fs28 color_w">点击申请排单/提现</div>
+            <div class="weui-tab">
+                <div class="weui-navbar fw_b">
+                    <a class="weui-navbar__item" href="#tab1">今日匹配</a>
+                    <a class="weui-navbar__item" href="#tab2">排单记录</a>
+                    <a class="weui-navbar__item" href="#tab3">等待收款</a>
+                    <a class="weui-navbar__item" href="#tab4">完成收款</a>
+                </div>
+                <div class="weui-tab__bd">
+                    <div id="tab1" class="weui-tab__bd-item" >
+                        <div class="weui-cells Sea">
+                                {volist name="output_order" id="vol"}
+                                <div class="weui-cell" >
+                                    <div class="weui-cell__bd">
+                                        <span class="fs28 color_3" style="color: rebeccapurple;">今日需打款</span>
+                                    </div>
+                                    {if condition="$is_display eq 1"}
+                                        <div class="weui-cell__ft">
+                                            <span class="fs24 color_3" style="color: rebeccapurple;">需打款总金额：{$vol.money}</span><a href="/vpay/MutualBilling/todayReceipt?id={$vol.id}" class="fs24 color_w">查看需打款</a>
+                                        </div>
+                                    {else /}
+                                        <div class="weui-cell__ft">
+                                            <span class="fs24 color_9" style="color: rebeccapurple;">请今日15:00之后查看</span>
+                                            <p class="fs24 color_w">待匹配中</p>
+                                        </div>
+                                    {/if}
+
+                                </div>
+                                {/volist}
+                                {volist name="entry_order" id="vol"}
+                                <div class="weui-cell">
+                                    <div class="weui-cell__bd">
+                                        <span class="fs28 color_3" style="color: #3d90db;">今日可收款</span>
+                                    </div>
+                                    {if condition="$is_display eq 1"}
+                                        <div class="weui-cell__ft">
+                                            <span class="fs24 color_3" style="color: #3d90db;">可收款总金额：{$vol.money}</span><a href="/vpay/MutualBilling/todayPay?id={$vol.id}" class="fs24 color_w">查看可收款</a>
+                                        </div>
+                                    {else /}
+                                        <div class="weui-cell__ft">
+                                            <span class="fs24 color_9" style="color: #3d90db;">请今日15:00之后查看</span>
+                                            <p class="fs24 color_w">待匹配中</p>
+                                        </div>
+                                    {/if}
+                                </div>
+                                {/volist}
+
+                        </div>
+                    </div>
+                    <div id="tab2" class="weui-tab__bd-item" nowp="1">
+                        <div class="weui-cells Sea">
+                            {volist name="$make_order" id='vol'}
+                            {if condition="$is_display eq 2 AND $vol.is_day eq 1"}
+                                <a href="javascript:void(0);" class="fs24 color_w">
+                            {else /}
+                                    {if condition="$vol.order_status eq 3"}
+                                        <a href="javascript:void(0);" class="fs24 color_w">
+                                    {else /}
+                                        <a href="/vpay/MutualBilling/todayReceipt?id={$vol.id}" class="fs24 color_w">
+                                    {/if}
+                            {/if}
+
+                            <div class="weui-cell">
+                                <div class="weui-cell__bd">
+                                    <img src="__VPAY__/assets/images/BI.png" alt="">
+                                    {if condition="$vol.order_status eq 1"}
+                                    <div><span class="fs28 color_3" >需打款：{$vol.money}</span></div>
+                                    {elseif condition="$vol.order_status eq 2"}
+                                    <div><span class="fs28 color_3" >需打款：{$vol.money}</span></div>
+                                    {elseif condition="$vol.order_status eq 3"}
+                                    <div><span class="fs28 color_3" style="color: #00a2d4;" >需打款：{$vol.money}</span></div>
+                                    {elseif condition="$vol.order_status eq 4"}
+                                    <div><span class="fs28 color_3" >需打款：{$vol.money}</span></div>
+                                    {/if}
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <span class="fs24 color_9"><?php echo(date('Y-m-d H:i:s',$vol['create_time']));?></span>
+                                    {if condition="$is_display eq 2 AND $vol.is_day eq 1"}
+                                        <div class="weui-cell__ft">
+                                            <span class="fs24 color_9" style="color: #3d90db;">请今日15:00之后查看</span>
+                                        </div>
+                                    {/if}
+                                        {if condition="$vol.order_status eq 1"}
+                                        <p class="fs24 color_w" style="color: yellow;">待匹配中</p>
+                                        {elseif condition="$vol.order_status eq 2"}
+                                        <p class="fs24 color_w">冻结中</p>
+                                        {elseif condition="$vol.order_status eq 3"}
+                                        <p class="fs24 color_w">打款已完成</p>
+                                        {elseif condition="$vol.order_status eq 4"}
+                                        <p class="fs24 color_w">失败</p>
+
+                                    {/if}
+
+
+                                </div>
+                            </div>
+                            </a>
+                            {/volist}
+                        </div>
+                        <div class="overLast1"></div>
+                        <div class="overLast" style="width:100%;height:0.666666rem;text-align: center;font-size: 0.25rem;color: #808080;"></div>
+                    </div>
+                    <div id="tab3" class="weui-tab__bd-item" nowp="1">
+                        <div class="weui-cells Sea">
+                            {volist name="matching_order" id="vol"}
+                            {if condition="$is_display eq 2 AND $vol.is_day eq 1"}
+                                <a href="javascript:void(0);" class="fs24 color_w">
+                            {else /}
+                                <a href="/vpay/MutualBilling/todayPay?id={$vol.id}" class="fs24 color_w">
+                            {/if}
+
+                            <div class="weui-cell">
+                                <div class="weui-cell__bd">
+                                    <img src="__VPAY__/assets/images/BI.png" alt="">
+                                    <div><span class="fs28 color_3">需打款：{$vol.money}</span></div>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    {if condition="$is_display eq 2 AND $vol.is_day eq 1"}
+                                    <div class="weui-cell__ft">
+                                        <span class="fs24 color_9" style="color: #3d90db;">请今日15:00之后查看</span>
+                                    </div>
+                                    {/if}
+                                    <span class="fs24 color_9" ><?php echo(date('Y-m-d H:i:s',$vol['add_time']));?></span>
+                                    {if condition="$vol.status eq 1"}
+                                    <p class="fs24 color_w" style="color: yellow;">待匹配</p>
+                                    {elseif condition="$vol.status eq 2 AND $vol.order_status eq 1"}
+                                    <p class="fs24 color_w" style="color: yellow;">匹配中</p>
+                                    {elseif condition="$vol.status eq 2 AND $vol.order_status eq 3"}
+                                    <p class="fs24 color_w" style="color: yellow;">订单已完成,请确定</p>
+                                    {elseif condition="$vol.status eq 3"}
+                                    <p class="fs24 color_w" style="color: yellow;">冻结中</p>
+                                    {elseif condition="$vol.status eq 4"}
+                                    <p class="fs24 color_w" style="color: yellow;">完成</p>
+                                    {elseif condition="$vol.status eq 5"}
+                                    <p class="fs24 color_w" style="color: yellow;">失败</p>
+                                    {/if}
+                                </div>
+                            </div>
+                            </a>
+                            {/volist}
+                        </div>
+                        <div class="overLast1"></div>
+                        <div class="overLast" style="width:100%;height:0.666666rem;text-align: center;font-size: 0.25rem;color: #808080;"></div>
+                    </div>
+                    <div id="tab4" class="weui-tab__bd-item" nowp="1">
+
+                        <div class="weui-cells Sea">
+                            {volist name="matched_order" id="vol"}
+                            <div class="weui-cell">
+                                <div class="weui-cell__bd">
+                                    <img src="__VPAY__/assets/images/BI.png" alt="">
+                                    <div><span class="fs28 color_3">需打款：{$vol.money}</span>
+                                        <!--<p class="fs24 color_3">对方: {$vol.real_name}</p>-->
+                                    </div>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <span class="fs24 color_9"><?php echo(date('Y-m-d H:i:s',$vol['add_time']));?></span>
+                                    {if condition="$vol.status eq 1"}
+                                    <p class="fs24 color_w">待匹配</p>
+                                    {elseif condition="$vol.status eq 2"}
+                                    <p class="fs24 color_w">匹配中</p>
+                                    {elseif condition="$vol.status eq 3"}
+                                    <p class="fs24 color_w">冻结中</p>
+                                    {elseif condition="$vol.status eq 4"}
+                                    <p class="fs24 color_w">收款已完成</p>
+                                    {elseif condition="$vol.status eq 5"}
+                                    <p class="fs24 color_w">失败</p>
+                                    {/if}
+                                </div>
+                            </div>
+                            {/volist}
+                        </div>
+
+                        <div class="overLast1"></div>
+                        <div class="overLast" style="width:100%;height:0.666666rem;text-align: center;font-size: 0.25rem;color: #808080;"></div>
+                    </div>
+                    <div class="WithdrawBox">
+                        <div class="dataBox">
+                            <div>
+                                <p class="fs38 color_3 num">{$user_info.coupon}</p><span class="fs24 color_9">EAC券</span>
+                            </div>
+                            <!--<div>-->
+                                <!--<p class="fs38 color_3 num">1360</p><span class="fs24 color_9">可提现额度</span>-->
+                            <!--</div>-->
+                            <div><a href="/vpay/MutualBilling/historicalPayRecords" class="fs28 color_3">查询</a><span class="fs24 color_9">历史打款记录</span></div>
+                        </div>
+                        <div class="weui-cells weui-cells_form">
+                            <div class="weui-cell">
+                                <div class="weui-cell__hd"><label class="weui-label fs28 color_3">金额</label></div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" type="number" name="set_money" disabled="disabled"  placeholder="请输入排单金额">
+                                </div>
+                            </div>
+                            <div class="weui-cell">
+                                <div class="weui-cell__hd"><label class="weui-label fs28 color_3">排单券</label></div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" type="number" name="set_sea" disabled="disabled"  placeholder="请输入排单券">
+                                </div>
+                            </div>
+                            <input type="hidden" id="set_id" value="">
+                            <!--{volist name="line_set" id="vol"}-->
+                                <!--<span class="limit fs32 color_b" onclick="set_line({$vol.set_money},{$vol.set_sea},{$vol.id});">{$vol.set_money}</span>-->
+                            <!--{/volist}-->
+                            <span class="limit fs32 color_b" onclick="set_line({$line_set.make_order_one+$line_set.make_order_two},{$line_set.matching_sea});">{$line_set.make_order_one+$line_set.make_order_two}</span>
+                            <div class="fs24 color_r tips">* 每天只能申请一次</div>
+                        </div>
+                        <div class="butBox">
+                            <div class="but fs32 fw_b color_w">申请排单</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {include file="public/footer"}
+
+    </div>
+    {include file="public/js"}
+    <script>
+        var user_id ={$user_info.user_id};
+        var num = 0;
+        var is_display = {$is_display};
+        var is_num = 1;
+    $(function() {
+
+        $('.weui-navbar__item').on('click', function() {
+            $('.WithdrawBox').hide()
+        })
+        $('.top').on('click', function() {
+            num = 0;
+            $('.weui-bar__item--on').removeClass('weui-bar__item--on')
+            $('.weui-tab__bd-item--active').removeClass('weui-tab__bd-item--active')
+            $('.WithdrawBox').show()
+        })
+
+
+    })
+
+    function set_line(set_money,set_sea){
+        $("input[name=set_money]").attr('value',set_money);
+        $("input[name=set_sea]").attr('value',set_sea);
+
+    }
+    $('.but').click(function(){
+        var set_money =  $("input[name=set_money]").val();
+        var set_sea = $("input[name=set_sea]").val();
+        if(is_num==2){
+            return false;
+        }
+         is_num = 2;
+        if(set_money==''&&set_sea==''){
+            layer.msg('请选择排单金额');
+        }else{
+            $.ajax({
+                'url':"{:url('/vpay/MutualBilling/add_order')}",
+                'type':'post',
+                'data':{'set_money':set_money,'set_sea':set_sea},
+                'dataType':'json',
+                'success':function(data){
+                    is_num = 1;
+                    console.log(data);
+                    // return false;
+                    if(data.status==10000){
+                        layer.msg(data.msg, { icon: 1, time: 2000 }, function () {
+                            window.location.reload();
+                        });
+                    }else{
+                        if(data.status==-1){
+                            layer.msg(data.msg, { icon: 5, time: 2000 },function(){
+                                window.location.href = '{:url("user/myReceiptInfo")}';
+                            });
+                            return false;
+                        }
+                        layer.msg(data.msg, { icon: 5, time: 2000 });
+                        return false;
+                    }
+                }
+            });
+        }
+
+    })
+
+    $(function () {
+        var nav = $(".weui-navbar"); //得到导航对象
+        var navH = nav.height();
+        var view = $(".page-bd");
+        var offsetT = ($(".weui-navbar").offset().top);
+        var bannerH = $(".weui-navbar").height();
+        var goodsBox = $("#tab2");
+        view.scroll(function () {
+            if (view.scrollTop() >= bannerH) {
+                nav.addClass("fiexd");
+                goodsBox.addClass("mt90");
+            } else {
+                nav.removeClass("fiexd");
+                goodsBox.removeClass("mt90");
+            }
+        })
+
+        var  view = $('.page-bd')
+        view.scroll(function () {
+            var viewScro = view.scrollTop();
+            var viewH = view.height();
+            var hotBox = $("#tab2").height();
+            // console.log(viewScro);
+            // console.log( viewH);
+            // console.log( hotBox);
+            // console.log(viewScro );
+
+            if (hotBox-viewScro<=(viewH-40)) {
+                var _this = $('.weui-tab__bd-item--active');
+                var overLast1 = _this.children('.overLast1');
+                var id = _this.attr('id');
+                var nowp = parseInt(_this.attr('nowp'))+1;
+                _this.attr('nowp',nowp);
+
+                num++;
+                if (num != 1) {
+                    return false;
+                }
+                if(id=='tab1'||id==''){
+                    return false;
+                }
+                if(id=='tab2'){
+                    var params = {'type':1,'uid':user_id,'p':nowp};
+                }else if(id=='tab3'){
+
+                    var params = {'type':2,'user_id':user_id,'status':[1,2],'p':nowp};
+                }else if(id=='tab4'){
+
+                    var params = {'type':3,'user_id':user_id,'status':4,'p':nowp};
+                }
+
+                $.ajax({
+                    'url':"{:url('/vpay/MutualBilling/ajaxmakeorder')}",
+                    'type':'post',
+                    'data':params,
+                    'dataType':'json',
+                    'success':function(data){
+                        console.log(id);
+                        // console.log(data);
+                        // return false;
+                        if (data.length == 0) {
+                            num = 0;
+                            _this.children('.overLast').html('已加载全部');
+                            return false;
+                        }
+                        var str = '';
+                        if (data.length != 0) {
+                            $.each(data, function (k, v) {
+                                var display_str = '';
+                                if(v.real_name){
+                                   // var real_name = ' <p class="fs24 color_3">对方: '+ v.real_name+'</p>';
+                                }else{
+                                   var real_name = '';
+                                }
+
+                                if(v.order_status==1){
+                                    var money_str =  '<div><span class="fs28 color_3">需打款：'+v.money +'</span>'+ real_name+'</div>';
+                                    var status_str =   '<p class="fs24 color_w" style="color: yellow;">'+ v.str_status+'</p>';
+                                }else if(v.order_status==3){
+                                    var money_str =  '<div><span class="fs28 color_3" style="color: #00a2d4">需打款：'+v.money +'</span>'+ real_name+'</div>';
+                                    var status_str =   '<p class="fs24 color_w">'+ v.str_status+'</p>';
+                                }else{
+                                    var money_str =  '<div><span class="fs28 color_3">需打款：'+v.money +'</span>'+ real_name+'</div>';
+                                    var status_str =   '<p class="fs24 color_w">'+ v.str_status+'</p>';
+                                }
+                                if(is_display==2&&v.is_day==1){
+                                      display_str =  '<div class="weui-cell__ft"> <span class="fs24 color_9" style="color: #3d90db;">请今日15:00之后查看</span> </div>';
+                                }
+                                if(v.order_status==3&&v.status==2){
+                                    var status_str = '<p class="fs24 color_w " style="color: yellow;">订单已完成,请确定</p>';
+                                }
+
+
+                                if(id=='tab2'){
+                                    if(is_display==2&&v.is_day==1){
+                                        var url_str = '<a href="javascript:void(0);" >';
+                                    }else{
+                                        var url_str = ' <a href="/vpay/MutualBilling/todayReceipt?id='+v.id+'" class="fs24 color_w">';
+                                    }
+                                    if(v.order_status==3){
+                                        var url_str = '<a href="javascript:void(0);" >';
+                                    }
+
+                                }else if(id=='tab3'||id=='tab4'){
+                                        var url_str = '<a href="javascript:void(0);" >';
+                                }else{
+                                    var url_str =  '<a href="/vpay/MutualBilling/todayPay?id='+ v.id+'" class="fs24 color_w">';
+                                    //var url_str = '<a href="javascript:void(0);" >';
+                                }
+
+                                  str+=
+                                      url_str
+                                      +'<div class="weui-cell">'
+                                     +       '<div class="weui-cell__bd">'
+                                     +           '<img src="__VPAY__/assets/images/BI.png" alt="">'
+                                     +           money_str
+                                     +       '</div>'
+                                     +       '<div class="weui-cell__ft">'
+                                     +          display_str
+                                     +           '<span class="fs24 color_9">'+v.time+'</span>'
+                                     +           status_str
+                                     +       '</div>'
+                                     +   '</div></a>';
+                            });
+                            _this.children('.overLast1').before(str);
+                            num = 0;
+                        }
+                    }
+                });
+            }
+        });
+    })
+    // 底部导航切换
+    obj.setParam(obj.arr[2]);
+
+
+    </script>
+</body>
+
+</html>

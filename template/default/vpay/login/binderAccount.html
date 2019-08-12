@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title>绑定子账号</title>
+</head>
+
+<body>
+    <div class="page">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">绑定子账号</div>
+                <div class="header-right">
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd login">
+            <!-- 页面内容 -->
+            <div class="top">
+                <img src="__VPAY__/assets/images/BI2.png" alt="" />
+            </div>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <input class="weui-input tel fs30" type="text" placeholder="请输入要绑定的用户ID" id="mobile" />
+                    </div>
+                    <div class="weui-cell__ft close">
+                        <img src="__VPAY__/assets/images/close_icon.png" alt="">
+                    </div>
+                </div>
+                <!--<div class="weui-cell">-->
+                    <!--<div class="weui-cell__bd">-->
+                        <!--<input class="weui-input pwd fs30" type="text" placeholder="请输入验证码" id="code" />-->
+                    <!--</div>-->
+                    <!--<div class="weui-cell__ft color_b getCode" id="codebtn" style="font-size: .173333rem">获取验证码</div>-->
+                <!--</div>-->
+                <div class="weui-cell bor_b">
+                    <div class="weui-cell__bd">
+                        <input class="weui-input pwd fs32" type="password" placeholder="请输入登录密码" id="password" />
+                    </div>
+                    <div class="weui-cell__ft ere">
+                        <img src="__VPAY__/assets/images/ere_no.png" alt="" data-type="no">
+                    </div>
+                </div>
+            </div>
+            <div class="butBox" id="register">
+                <div class="but">绑定子账号</div>
+            </div>
+        </div>
+    </div>
+    {include file="public/js"}
+    <script>
+    $(function() {
+
+        $('.ere').on('click', function() {
+            let obj = $(this).find('img');
+            let typeVal = obj.attr('data-type');
+            if (typeVal == 'no') {
+                obj.attr('src', '__VPAY__/assets/images/ere_off.png')
+                obj.attr('data-type', 'off')
+                $('.pwd').attr('type', 'text')
+            } else {
+                obj.attr('src', '__VPAY__/assets/images/ere_no.png')
+                obj.attr('data-type', 'no')
+                $('.pwd').attr('type', 'password')
+            }
+        })
+        $(".tel").bind("input propertychange", function(event) {
+            $('.close').show()
+        });
+        $('.close').click(function(event) {
+            $('#mobile').val('');
+        });
+
+        // // 发送验证码
+        // $('#codebtn').on('click', function(e) {
+        //
+        //     var arr    = new Object();
+        //     arr.type   = 'register';
+        //     arr.mobile = $('#mobile').val();
+        //     if (arr.mobile == '') return layer.msg('请输入手机号码', {icon: 2});
+        //
+        //     var self = $(this);
+        //     jq_ajax('{:url("publics/api.sms/sendCode")}',arr,function (res) {
+        //         if (res.code != 1) return layer.msg(res.msg, {icon: 2});
+        //
+        //         setTimeout(function(){
+        //             self.addClass('active');
+        //             layer.msg('发送成功，请注意查收', {icon: 1});
+        //         },1000)
+        //
+        //         // 60秒后重新获取验证码
+        //         var time = 60;
+        //         var set  = setInterval(function(){
+        //             self.text(""+--time+"s");
+        //         }, 1000);
+        //
+        //         setTimeout(function(){
+        //             self.text('获取验证码');
+        //             self.removeClass('active');
+        //             clearInterval(set);
+        //         }, 60000);
+        //     })
+        // })
+    })
+
+    $('#register').on('click',function(){
+        var arr      = new Object();
+        arr.mobile   = $('#mobile').val();
+        arr.password = $('#password').val();
+        // arr.code     = $('#code').val();
+
+        if (arr.mobile == '') return layer.msg('请输入用户ID', {icon: 2});
+        // if (arr.code == '') return layer.msg('请输入验证码', {icon: 2});
+        if (arr.password == '' ) return layer.msg('请输入用户密码', {icon: 2});
+
+        jq_ajax('{:url("member/api.passport/binderAccount")}',arr,function (res) {
+            if (res.code != 1) return layer.msg(res.msg, {icon: 2});
+
+            layer.msg(res.msg, {icon: 1}, function(){
+                history.go(-1);
+            });
+        })
+    })
+    </script>
+</body>
+
+</html>

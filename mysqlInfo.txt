@@ -1,0 +1,27 @@
+数据库信息
+=====================================
+
+
+
+vpay_users 用户分表
+vpay_users_vest 马甲用户 虚拟用户 后台添加的用户
+vpay_level_where vpay等级条件设置、加速释放A设置
+vpay_release_rule 释放规则 加速释放B（关系链）
+vpay_release_proportion 释放比例 加速释放B（关系链）
+
+
+vpay_record_activation_code 激活码变动记录
+vpay_record_assets_bundle 资产包变动记录
+vpay_record_coupon sea券变动记录
+vpay_record_pass_card sea通证变动记录
+
+vpay_turn_out_activation_code 激活码转出
+vpay_turn_out_assets_bundle 资产包转出
+vpay_turn_out_coupon sea券转出
+vpay_turn_out_pass_card sea通证转出
+
+
+vpay_make_order  打款订单表
+vpay_matching   匹配表
+vapy_put_away  打款信息表
+vapy_user_info  个人资料表

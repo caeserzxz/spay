@@ -1,0 +1,52 @@
+<table class="table table-striped  m-b-none">
+<thead>
+<tr>
+	<th class="th-sortable">订单id</th>
+    <th>用户</th>
+    <th>sea券</th>
+    <th>调整sea券后余额</th>
+
+    <th>sea通证</th>
+    <th>调整sea通证后余额</th>
+
+    <th>资产包</th>
+    <th>调整资产包后余额</th>
+
+    <th>激活码</th>
+    <th>调整激活码后余额</th>
+
+    <th>操作时间</th>
+</tr>
+</thead>
+<tbody>
+
+{volist name="data.list" id="vo" }
+<tr>
+
+    <td>{$vo.id}</td>
+    <td>{:getUserName($vo.user_id) . ' ID:' . $vo.user_id}</td>
+
+    <td>{$vo.coupon}</td>
+    <td>{$vo.coupon_after}</td>
+
+    <td>{$vo.pass_card}</td>
+    <td>{$vo.pass_card_after}</td>
+
+    <td>{$vo.asset_bundle}</td>
+    <td>{$vo.asset_bundle_after}</td>
+
+    <td>{$vo.activation_code}</td>
+    <td>{$vo.activation_code_after}</td>
+
+    <td>{:date('Y-m-d H:i:s', $vo.time)}</td>
+
+</tr>
+
+{/volist}
+</tbody>
+</table>
+{empty name="data.list"}
+<table width="100%" >
+ 	<tr><td height="300" colspan="8" align="center" valign="middle" >没有相关数据！</td></tr>
+</table>
+{/empty}

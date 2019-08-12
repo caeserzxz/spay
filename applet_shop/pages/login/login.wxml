@@ -1,0 +1,33 @@
+<!--pages/login/login.wxml-->
+<form bindsubmit='dologin'>
+    <view class='logo'>
+        <view class='login_logo'>
+            <image src="/images/APPLOGO.png" />
+        </view>
+        <view class='fs34 mt20'>微潮新商城</view>
+    </view>
+    <view class='login_box'>
+        <view class='input_box'>
+            <input type='text' placeholder='请输入手机号码' bindfocus='focus' name="user_account" value='{{user_account}}' bindblur='blur' bindinput='account' />
+        </view>
+         <view wx:if="{{isloginsms == 1}}" class='input_box mt10'>
+            <input type='text' name="user_code" placeholder='验证码' />
+            <view bindtap='sendcode' class='eye_img fs28 fw600 text-main'>{{code_title}}</view>
+        </view>
+        <view class='input_box mt10'>
+            <input type='{{eyes?"text":"password"}}' placeholder='请输入登录密码' name="user_passwrod" value='Abc123456' bindfocus='focus' bindblur='blur' bindinput='password' />
+            <view class='eye_img' bindtap='open_eyes'>
+                <image wx:if="{{eyes}}" src="/images/login02.png" />
+                <image wx:else src="/images/login01.png" />
+            </view>
+        </view>
+        <view class='fs30 text-muted tr mt20'>忘记密码 </view>
+    </view>
+    <view class='btn_box login_btn mt100'>
+        <button  form-type="submit" class='btn_primary'>登录</button>
+    </view>
+</form>
+
+<view class='tc fs30 text-muted fw600 mt30'>还没有账号，
+    <navigator url='/pages/register/register' class='text-default inblock'>立即注册</navigator>
+</view>

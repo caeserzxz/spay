@@ -1,0 +1,149 @@
+<table class="table table-striped  m-b-none">
+<thead>
+<tr>
+	<th width="60" class="th-sortable" data-sort-name="u.user_id">订单id</th>
+    <th width="130">排单时间</th>
+    <th width="50">打款人id</th>
+    <th width="50">收款人id</th>
+    <th width="100">排单金额</th>
+    <!-- <th width="100">帐户余额</th> -->
+    <th width="90">打款状态</th>
+    <th width="90">收款状态</th>
+    <th width="130">创建匹配时间</th>
+    <th width="130">匹配时间</th>
+    <th width="130">完成时间</th>
+    <th width="130">失败时间</th>
+    <th width="130">冻结时间</th>
+    <th width="90">优先级</th>
+    <!--<th width="130">最近登陆</th>-->
+    <th width="160">操作</th>
+</tr>
+</thead>
+<tbody>
+
+{volist name="data.list" id="vo" }
+<tr>
+<td>{$vo.b_id}</td>
+<td>
+    {if condition="$vo['create_time'] neq ''"}
+        <?php echo date('Y-m-d H:i',$vo['create_time']);?>
+    {/if}
+</td>
+<td>{$vo.uid}</td>
+<td>{$vo.user_id}</td>
+
+<!--
+<td>{$vo.total_integral|userLevel} /
+{eq name="vo.role_id" value="0"}
+粉丝
+{else/}
+{$roleList[$vo['role_id']]['role_name']}
+{/eq}
+</td>
+ -->
+
+
+
+<td>{$vo.money}</td>
+<td>
+    {if condition="$vo.order_status eq 1"}
+        匹配中
+    {elseif condition="$vo.order_status eq 2" /}
+        冻结
+    {elseif condition="$vo.order_status eq 3" /}
+        完成
+    {elseif condition="$vo.order_status eq 4" /}
+        失败
+    {/if}
+</td>
+<td>
+    {if condition="$vo.status eq 1"}
+        待匹配
+    {elseif condition="$vo.status eq 2" /}
+        匹配中
+    {elseif condition="$vo.status eq 3" /}
+        冻结中
+    {elseif condition="$vo.status eq 4" /}
+        完成
+    {elseif condition="$vo.status eq 5" /}
+        失败
+    {/if}
+</td>
+<td>
+    {if condition="$vo['add_time'] neq ''"}
+        <?php echo date('Y-m-d H:i',$vo['add_time']);?>
+    {/if}
+</td>
+<td>
+    {if condition="$vo['matching_time'] neq '' "}
+        <?php echo date('Y-m-d H:i',$vo['matching_time']);?>
+    {/if}
+</td>
+<td>
+    {if condition="$vo['complete_time'] neq '' "}
+        <?php echo date('Y-m-d H:i',$vo['complete_time']);?>
+    {/if}
+</td>
+<td>
+    {if condition="$vo['examine_time'] neq '' "}
+        <?php echo date('Y-m-d H:i',$vo['examine_time']);?>
+    {/if}
+</td>
+<td>
+    {if condition="$vo['frozen_time'] neq '' "}
+        <?php echo date('Y-m-d H:i',$vo['frozen_time']);?>
+    {/if}
+</td>
+<td>
+    {if condition="$vo.priority_level eq 1"}
+        马甲
+    {elseif condition="$vo.priority_level eq 2" /}
+        正常
+    {elseif condition="$vo.priority_level eq 3" /}
+        解冻
+    {/if}
+</td>
+
+
+<!-- <td>{$vo.balance_money}</td> -->
+<!--<td>{$vo.login_time|dateTpl}</td>-->
+
+<td>
+
+<!--<a title="重置密码"  data-confirm="您确定要重置该会员密码，重置为Abc123456" data-toggle="cfmAjax" href="{:url('restPassword',array('user_id'=>$vo['user_id']))}" class="m-xs"><i class="fa fa-rotate-left text-muted"></i></a>-->
+<!--<a title="重置支付密码"  data-confirm="您确定要重置该会员支付密码" data-toggle="cfmAjax" href="{:url('restPayPassword',array('user_id'=>$vo['user_id']))}" class="m-xs"><i class="fa  fa-rotate-right text-muted"></i></a>-->
+
+<!--{eq name="is_ban" value="0"}-->
+<!--<a title="封禁会员"  data-confirm="您确定要封禁该会员，封禁后则会员则无法登陆? " data-toggle="cfmAjax" href="{:url('evelBan',array('user_id'=>$vo['user_id']))}" class="m-xs"><i class="fa fa-lock text-muted"></i></a>-->
+<!--{else/}-->
+<!--<a title="解禁会员"  data-confirm="您确定要解禁该会员，解禁后则会员则可正常登陆? " data-toggle="cfmAjax" href="{:url('reBan',array('user_id'=>$vo['user_id']))}" class="m-xs"><i class="fa fa-unlock"></i></a>-->
+<!--{/eq}-->
+<a href="{:url('order_info',array('id'=>$vo['b_id']))}" class="m-xs" title="查看详细信息">
+    <i class="fa fa-edit"></i>
+</a>
+
+<!--
+<a href="{:url('shop/sys_admin.order/index',array('user_id'=>$vo['user_id']))}" class="m-xs" title="查看订单">
+    <i class="fa fa-search"></i>
+</a>
+
+  <a href="{:url('sys_admin.accountLog/index',array('user_id'=>$vo['user_id']))}" class="m-xs" title="资金变动明细">
+    <i class="fa fa-dollar"></i>
+</a>
+ -->
+
+  <!--<a href="{:url('sys_admin.logOperate/index',array('edit_id'=>$vo['user_id']))}" class="m-xs" title="操作日志">-->
+    <!--<i class="fa fa-calendar"></i>-->
+</a>
+
+    </td>
+</tr>
+
+{/volist}
+</tbody>
+</table>
+{empty name="data.list"}
+<table width="100%" >
+ 	<tr><td height="300" colspan="8" align="center" valign="middle" >没有相关数据！</td></tr>
+</table>
+{/empty}

@@ -1,0 +1,137 @@
+{extend name="layouts@base" /}
+{block name="head"}
+<link rel="stylesheet" href="__STATIC__/mobile/default/css/wallet.css" />
+{/block}
+{block name="pageType"}chongzhi{/block}
+{block name="main" }
+<div class="page-bd">
+        <!-- 页面内容-->
+          <div class="inputBlock">
+            <div class="tips fs60 fw_b color_9">充值金额(元)</div>
+            <input type="text" class="fs60 num textBox" id="order_amount">
+          </div>
+          <div class="paytype">
+              <div class="title fs34 color_3 fw_b">请选择支付方式</div>
+              <div class="cells">
+
+
+              </div>
+              <div class="uploading">
+                  <div class="title fs28 fw_b color_3">上传凭证</div>
+                  <div class="uploadBox">
+
+                     <div class="Box">
+                        <img src="__STATIC__/mobile/default/images/addImg.png" alt="" class="imgBox">
+                        <input type="file" class="uploadInput" onchange="uploadFile(this,event)">
+
+                      </div>
+                  </div>
+                </div>
+            </div>
+
+          <div class="button fs32 fw_b color_w BGcolor_r postBtn">确认充值</div>
+
+    </div>
+    </div>
+{literal}
+<script type="text/html" id="payListTpl">
+    {{each data as item index}}
+    <div class="cell">
+        <div class="cell_hd"><img src="__STATIC__/mobile/default/images/{{item.img}}" alt=""></div>
+        <div class="cell_bd"><span class="fs30 color_3">{{item.pay_name}}</span></div>
+        <div class="cell_ft">
+            <label for="pay{{item.pay_id}}">
+                <div class="iconBox">
+                    <input type="radio" class="check" value="{{item.pay_code}}" name="pay_code" id="pay{{item.pay_id}}" >
+                    <i class="icon_checked"></i>
+                </div>
+            </label>
+        </div>
+    </div>
+    {{/each}}
+</script>
+{/literal}
+{/block}
+{block name="footer"}
+<script type="text/javascript">
+$(function(){
+    //加载支付列表中
+    jq_ajax('{:url("publics/api.pay/getList",["type"=>"is_recharge"])}','',function(res){
+        if (res.code==0){
+            _alert(res.msg);
+            return false;
+        }
+        $('.cells').html(template('payListTpl',res));
+    });
+	$('.textBox').on('click',function(){
+	  $(this).siblings().animate({'fontSize':'0.173333rem','top':'0.2666666rem'})
+	})
+	$('.inputBlock input').blur(function(){
+	  if($(this).val()==''){
+		$(this).siblings().animate({'fontSize':'0.4rem','top':'0.386667rem'})
+	  }
+	})
+	$(document).on('click',".check",function(){
+        $('.uploading').hide();
+	  if ($(this).is(":checked") && $(this).val() == 'offline') {
+		  $('.uploading').show()
+	  }
+	})
+})
+
+var isPost = false
+var fd = new FormData();
+var imgNum = 0;
+$('.postBtn').click(function(){
+	var order_amount = $('#order_amount').val();
+    var pay_code =  $('input:radio[name="pay_code"]:checked').val();
+	if (order_amount < 1){
+		_alert('充值金额不能少于1.');
+		return false;
+	}
+	fd.append("pay_code",pay_code);
+	fd.append("order_amount", order_amount);
+	$.ajax({
+		  url: '{:url("member/api.Wallet/recharge")}',
+		  type: 'post',
+		  processData: false,
+		  contentType: false,
+		  data: fd,
+		  success: function (res) {
+			 if (res.code == 0){
+				  _alert(res.msg);
+				  return false;
+			  }
+			  if (pay_code ==  'offline'){
+                  _alert(res.msg,'{:url("member/wallet/index")}');
+                  return false;
+              }
+
+              window.location.href = '{:_url("shop/payment/getPay",["order_id"=>"【res.data.order_id】","pay_code"=>"【pay_code】"])}';
+		  }
+	})
+
+
+})
+//删除上传图片
+$('.uploadBox').on('click','.closeImg',function(){
+	$(this).parent().remove();
+	fd.delete("imgfile["+$(this).data('imgnum')+"]");
+})
+//选择上传图片
+function uploadFile(_this,e){
+	compress(e, function(base64Img){
+		if (imgNum > 6){
+			_alert('最多允许上传6张图片.');
+			return false;
+		}
+		imgNum++;
+		fd.append("imgfile["+imgNum+"]", base64Img);
+		$(_this).parent().before('<div class="Box"><img src="'+base64Img+'" alt="" class="imgBox"><img src="__STATIC__/mobile/default/images/closeImg.png" alt="" data-imgnum="'+imgNum+'" class="closeImg"></div>');
+	})
+
+}
+
+</script>
+
+{/block}

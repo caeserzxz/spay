@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title>APP下载</title>
+</head>
+
+<body>
+    <div class="page share">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">APP下载</div>
+                <div class="header-right">
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd">
+            <!-- 页面内容 -->
+            <div class="block">
+                <span class="fs26 color_w">苹果APP下载二维码</span>
+                <img src="__VPAY__/upload/qr_code/ios_code/{$set.ios_code}" alt="">
+                <span class="fs26 color_w">安卓APP下载二维码</span>
+                <img src="__VPAY__/upload/qr_code/android_code/{$set.android_code}" alt="">
+            </div>
+        </div>
+    </div>
+    {include file="public/js"}
+</body>
+
+</html>

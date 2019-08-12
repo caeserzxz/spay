@@ -1,0 +1,126 @@
+{extend name="mainadmin@layouts/base" /}
+{block name="main" }
+<style>
+    @media (min-width: 768px){
+        .col-sm-2 {
+            width: 44.333333% !important;
+        }
+    }
+</style>
+<header class="header  b-b clearfix">
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-ellipsis-v"></i>
+                <strong>排单配置</strong>
+            </li>
+        </ul>
+    </div>
+</header>
+<section class="scrollable  wrapper">
+    <form class="form-horizontal form-validate" method="post" action="{:url('save')}">
+        <section class="panel panel-default">
+            <header>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#basic" data-toggle="tab">排单配置</a></li>
+                    <!-- <li><a href="#about_us" data-toggle="tab">关于我们</a></li> -->
+                </ul>
+            </header>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="basic">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">账户超过( )次冻结后,自动进入黑名单</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[frozen_num]" class="input-max" data-rule-required="true"
+                                   value="{$setting.frozen_num}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">累计排单( )天后才开始打款</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text"  name="setting[matching_start]"  class="input-max" data-rule-required="true"
+                                   value="{$setting.matching_start}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">累计匹配( )天后,可以有匹配资格</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text"  name="setting[matching_day]"  class="input-max" data-rule-required="true"
+                                   value="{$setting.matching_day}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">冻结( )小时后自动解冻</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[make_money_thaw]"  class="input-max" data-rule-required="true"
+                                   value="{$setting.make_money_thaw}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">资产包低于( )不可排单</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[asset_bundle_min]"  class="input-max" data-rule-required="true"
+                                   value="{$setting.asset_bundle_min}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">( )个小时未打款,则冻结账号</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[make_money_hour]"  class="input-max" data-rule-required="true"
+                                   value="{$setting.make_money_hour}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">排单消耗( )sea券</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[matching_sea]"   class="input-max" data-rule-required="true"
+                                   value="{$setting.matching_sea}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">平台每天匹配两个打款任务</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[make_order_one]"   class="input-min" data-rule-required="true"
+                                   value="{$setting.make_order_one}">
+                            <input type="text" name="setting[make_order_two]"  class="input-min"   data-rule-required="true"
+                                   value="{$setting.make_order_two}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">匹配方案A</label>
+                        <div class="controls col-sm-6 ">
+                            <input type="text" name="setting[programme_a_one]"    class="input-min" data-rule-required="true"
+                                   value="{$setting.programme_a_one}">
+                            <input type="text" name="setting[programme_a_two]"    class="input-min" data-rule-required="true"
+                                   value="{$setting.programme_a_two}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">匹配方案B</label>
+                        <div class="controls col-sm-6 ">
+                            <input type="text" name="setting[programme_b_one]"    class="input-min" data-rule-required="true"
+                                   value="{$setting.programme_b_one}">
+                            <input type="text" name="setting[programme_b_two]"    class="input-min" data-rule-required="true"
+                                   value="{$setting.programme_b_two}">
+                            <input type="text" name="setting[programme_b_three]"    class="input-min" data-rule-required="true"
+                                   value="{$setting.programme_b_three}">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="line line-dashed line-lg pull-in" style="width:99%;"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary" data-loading-text="保存中...">保存</button>
+                    <button type="button" class="btn btn-default" data-toggle="back">取消</button>
+                </div>
+            </div>
+
+        </section>
+
+</section>
+{/block}

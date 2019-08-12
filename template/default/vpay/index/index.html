@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/js/Swiper-4.0.7/swiper.min.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title> 首页 </title>
+</head>
+
+<body>
+    <div class="page index">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">首页</div>
+                <div class="header-right">
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd">
+            <!-- 页面内容-->
+            <div class="user fs26 color_w">
+                <!--<img src="{$info['headimgurl']}" alt="">-->
+                <img src="__VPAY__/assets/images/BI2.png" alt="" />
+                <span>ID：{$info['user_id']}</span>
+                <span>电话：{$info['mobile']}</span>
+                <span>姓名：{$info['user_name']}</span>
+            </div>
+            <div class="userData">
+                <div></div>
+                <a href="{:url('User/assetsBundleDetails')}" class="dataBox">
+                    <span class="num fs38 color_3">{$assets['asset_bundle']}</span>
+                    <p class="fs24 color_6">我的资产</p>
+                </a>
+                <div></div>
+                <a href="{:url('User/couponDetails')}" class="dataBox">
+                    <span class="num fs38 color_3">{$assets['coupon']}</span>
+                    <p class="fs24 color_6">EAC券</p>
+                </a>
+                <div class="dataBox">
+                    <span class="num fs28 color_r">{$assets['current_price']}</span>
+                    <p class="fs20 color_r">当前价格</p>
+                </div>
+                <a href="{:url('User/passCardDetails')}" class="dataBox">
+                    <span class="num fs38 color_3">{$assets['pass_card']}</span>
+                    <p class="fs24 color_6">EAC通证</p>
+                </a>
+            </div>
+            <div class="swiperBox">
+                <img src="__VPAY__/assets/images/index01.png" alt="">
+                <div class="swiper-container swiper">
+                    <div class="swiper-wrapper">
+
+                        {volist name="$article" id="v"}
+
+                            <a class="swiper-slide" href="{:url('shop/Article/info', ['id'=>$v['id']])}">
+                                <span class="color_6 fs24">{$v['title']}</span>
+                                <img src="__VPAY__/assets/images/index02.png" alt="">
+                            </a>
+
+                        {/volist}
+
+                    </div>
+                </div>
+            </div>
+            <div class="grid fs26 color_3">
+
+                <a href="{:url('activation')}"><img src="__VPAY__/assets/images/index03.png" alt=""><span>激活</span></a>
+                <a href="{:url('transferAccounts')}"><img src="__VPAY__/assets/images/index05.png" alt=""><span>转出</span></a>
+                <a href="{:url('convertibilityReInvestment')}"><img src="__VPAY__/assets/images/index04.png" alt=""><span>兑换&复投</span></a>
+                <a href="{:url('MutualBilling/index')}"><img src="__VPAY__/assets/images/index05.png" alt=""><span>交易提现</span></a>
+                <a href="{:url('Login/shareFriends')}"><img src="__VPAY__/assets/images/index06.png" alt=""><span>分享</span></a>
+
+                <a href="javascript:;" onclick="showModel()"><img src="__VPAY__/assets/images/index08.png" alt=""><span>EAC商城</span></a>
+                <a href="javascript:;" onclick="showModel()"><img src="__VPAY__/assets/images/index07.png" alt=""><span>欢乐送</span></a>
+                <a href="javascript:;" onclick="showModel()"><img src="__VPAY__/assets/images/index07.png" alt=""><span>爱心公益</span></a>
+                <a href="javascript:;" onclick="showModel()"><img src="__VPAY__/assets/images/index09.png" alt=""><span>互助保险</span></a>
+                <a href="javascript:;" onclick="showModel()"><img src="__VPAY__/assets/images/index10.png" alt=""><span>乐翻翻</span></a>
+                <a href="javascript:;" onclick="showModel()"><img src="__VPAY__/assets/images/index04.png" alt=""><span>钱包管理</span></a>
+                <a href="javascript:;" onclick="showModel()"><img src="__VPAY__/assets/images/index10.png" alt=""><span>幸运轮</span></a>
+            </div>
+            <div class="bannerBox">
+                <img src="__VPAY__/assets/images/bannner.png" alt="">
+            </div>
+        </div>
+
+        <div id="model" class="weui-popup__container popup-center">
+            <div class="weui-popup__overlay"></div>
+            <div class="weui-popup__modal">
+                <img src="__VPAY__/assets/images/tipsIcon.png" alt="">
+                <span class="fs30 color_3">敬请期待！</span>
+                <div class="modelBtn fs30 color_w">知道了</div>
+            </div>
+        </div>
+
+        {include file="public/footer"}
+
+    </div>
+    {include file="public/js"}
+    <script>
+    $(function() {
+        swiper1 = createSwiper();
+        $('.modelBtn').on('click', function() {
+            $.closePopup();
+        })
+    })
+
+    // 底部导航切换
+    obj.setParam(obj.arr[0]);
+
+    function createSwiper() {
+        var swiper = new Swiper(".swiper", {
+            pagination: {},
+            direction: 'vertical',
+            paginationClickable: true,
+            observer: true,
+            observeParents: true,
+            loop: true,
+            autoplay: {
+                delay: 1500,
+                stopOnLastSlide: false,
+                disableOnInteraction: false
+            },
+            onSlideChangeEnd: function(swiper) {
+                swiper.update(); //swiper更新
+            }
+        });
+        return swiper;
+    }
+
+    function showModel() {
+        $("#model").popup();
+    }
+    </script>
+</body>
+
+</html>

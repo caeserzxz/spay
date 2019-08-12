@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title>注册</title>
+</head>
+
+<body>
+    <div class="page">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">注册</div>
+                <div class="header-right">
+                    <a href="{:url('index')}">登录</a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd login">
+            <!-- 页面内容 -->
+            <div class="weui-cells weui-cells_form register">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <img src="__VPAY__/assets/images/must.png" alt="">
+                        <input class="weui-input tel fs30" type="text" placeholder="用户名,4到16位（字母,下划线，减号）" id="member" />
+                    </div>
+                    <div class="weui-cell__ft close">
+                        <img src="__VPAY__/assets/images/close_icon.png" alt="">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <img src="__VPAY__/assets/images/must.png" alt="">
+                        <input class="weui-input tel fs30" type="text" placeholder="请输入真实姓名（必须与收款信息一致）" id="user_name" />
+                    </div>
+                    <div class="weui-cell__ft close">
+                        <img src="__VPAY__/assets/images/close_icon.png" alt="">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <img src="__VPAY__/assets/images/must.png" alt="">
+                        <input class="weui-input pwd fs32" type="password" placeholder="请输入登录密码" id="password" />
+                    </div>
+                    <div class="weui-cell__ft ere">
+                        <img src="__VPAY__/assets/images/ere_no.png" alt="" data-type="no">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <img src="__VPAY__/assets/images/must.png" alt="">
+                        <input class="weui-input pwd fs32" type="password" placeholder="请再次输入密码" id="confirmPwd" />
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <img src="__VPAY__/assets/images/must.png" alt="">
+                        <input class="weui-input pwd fs32" type="password" placeholder="请输入二级密码" id="pay_password" />
+                    </div>
+                    <div class="weui-cell__ft ere">
+                        <img src="__VPAY__/assets/images/ere_no.png" alt="" data-type="no">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <img src="__VPAY__/assets/images/must.png" alt="">
+                        <input class="weui-input pwd fs32" type="password" placeholder="确认二级密码" id="re_pay_password" />
+                    </div>
+                    <div class="weui-cell__ft ere">
+                        <img src="__VPAY__/assets/images/ere_no.png" alt="" data-type="no">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <img src="__VPAY__/assets/images/must.png" alt="">
+                        <input class="weui-input tel fs32" type="text" placeholder="请输入注册手机号码" id="mobile" />
+                    </div>
+                    <div class="weui-cell__ft close">
+                        <img src="__VPAY__/assets/images/close_icon.png" alt="">
+                    </div>
+                </div>
+                <!--<div class="weui-cell">-->
+                    <!--<div class="weui-cell__bd">-->
+                        <!--<img src="__VPAY__/assets/images/must.png" alt="">-->
+                        <!--<input class="weui-input pwd fs30" type="text" placeholder="输入验证码" id="code" />-->
+                    <!--</div>-->
+                    <!--<div class="weui-cell__ft color_b getCode" id="codebtn">获取验证码</div>-->
+                <!--</div>-->
+                <div class="weui-cell bor_b">
+                    <div class="weui-cell__bd">
+                        <img src="__VPAY__/assets/images/must.png" alt="">
+                        <input class="weui-input pwd fs30" type="text" <?php if($pid){echo 'disabled';}?> placeholder="请输入推荐人ID" id="pid" value="{$pid}" />
+                    </div>
+                </div>
+            </div>
+            <div class="butBox registerBtn">
+                <div class="but" id="register">确认注册</div>
+            </div>
+            <a href="{:url('appDownload')}" class="fs26 color_b registerGo">APP下载码</a>
+        </div>
+    </div>
+    {include file="public/js"}
+    <script>
+    $(function() {
+
+        $('.ere').on('click', function() {
+            let obj = $(this).find('img');
+            let typeVal = obj.attr('data-type');
+            if (typeVal == 'no') {
+                obj.attr('src', '__VPAY__/assets/images/ere_off.png')
+                obj.attr('data-type', 'off')
+                $(this).siblings('div').find('input').attr('type', 'text')
+            } else {
+                obj.attr('src', '__VPAY__/assets/images/ere_no.png')
+                obj.attr('data-type', 'no')
+                $(this).siblings('div').find('input').attr('type', 'password')
+            }
+        })
+
+        $(".tel").bind("input propertychange", function(event) {
+            $(this).parent().siblings('.close').show()
+        });
+        $('.close').click(function() {
+            $(this).siblings('div').find('input').val('');
+        });
+
+        // // 发送验证码
+        // $('#codebtn').on('click', function(e) {
+        //
+        //     var arr    = new Object();
+        //     arr.type   = 'register';
+        //     arr.mobile = $('#mobile').val();
+        //     if (arr.mobile == '') return layer.msg('请输入手机号码', {icon: 2});
+        //
+        //     var self = $(this);
+        //     jq_ajax('{:url("publics/api.sms/sendCode")}',arr,function (res) {
+        //         if (res.code != 1) return layer.msg(res.msg, {icon: 2});
+        //
+        //         setTimeout(function(){
+        //             self.addClass('active');
+        //             layer.msg('发送成功，请注意查收', {icon: 1});
+        //         },1000)
+        //
+        //         // 60秒后重新获取验证码
+        //         var time = 60;
+        //         var set  = setInterval(function(){
+        //             self.text(""+--time+"s");
+        //         }, 1000);
+        //
+        //         setTimeout(function(){
+        //             self.text('获取验证码');
+        //             self.removeClass('active');
+        //             clearInterval(set);
+        //         }, 60000);
+        //     })
+        //
+        //
+        //     // $.toast("验证码发送成功", "text");
+        // })
+    })
+
+    $('#register').on('click',function(){
+        var arr          = new Object();
+        arr.mobile       = $('#mobile').val();
+        arr.user_name    = $('#user_name').val();
+        arr.password     = $('#password').val();
+        arr.confirmPwd   = $('#confirmPwd').val();
+        arr.pay_password = $('#pay_password').val();
+        arr.re_pay_password = $('#re_pay_password').val();
+        arr.pid          = $('#pid').val();
+        arr.member_name = $('#member').val();
+        // arr.code         = $('#code').val();
+
+        // arr.nick_name    = $('#nick_name').val();
+        // if (arr.nick_name == ''){
+        //     layer.msg('请输入用户昵称', {icon: 2});
+        //     return false;
+        // }
+
+        var uPattern = /^[a-zA-Z0-9_-]{4,16}$/;
+        if(!(uPattern.test(arr.member_name))){
+            layer.msg('请输入正确的用户名', {icon: 2})
+            return false;
+        }
+        if (arr.mobile == '') return layer.msg('请输入手机号码', {icon: 2});
+        // if (arr.code == '') return layer.msg('请输入验证码', {icon: 2});
+        if (arr.password == '' ) return layer.msg('请输入用户密码', {icon: 2});
+        if (arr.password.length < 6) return layer.msg('用户密码长度不能小于六位', {icon: 2});
+        if(  arr.password != arr.confirmPwd ) return layer.msg('两次登录密码不同,请确认', {icon: 2});
+        if( arr.pay_password != arr.re_pay_password) return layer.msg('两次二级密码不同,请确认', {icon: 2});
+        jq_ajax('{:url("member/api.passport/register")}',arr,function (res) {
+            if (res.code != 1) return layer.msg(res.msg, {icon: 2});
+
+            layer.msg(res.msg, {icon: 1}, function(){
+                window.location.href = '{:url("index/index")}';
+            });
+        })
+    })
+
+    </script>
+</body>
+
+</html>

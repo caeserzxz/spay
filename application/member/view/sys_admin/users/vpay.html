@@ -1,0 +1,78 @@
+<form class="form-horizontal form-validate " method="post" action="{:url('')}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">用户资产调整</h4>
+            </div>
+            <div class="modal-body">
+
+        		<div class="form-group">
+                    <label class="col-sm-5 control-label">sea券</label>
+                    <div class="col-sm-2">
+                        <select name="type_coupon">
+                            <option value="increase">增加</option>
+                            <option value="reduce">减少</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="input-large" name="coupon" value="" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-5 control-label">sea通证</label>
+                    <div class="col-sm-2">
+                        <select name="type_pass_card">
+                            <option value="increase">增加</option>
+                            <option value="reduce">减少</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="input-large" name="pass_card" value="" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-5 control-label">资产包</label>
+                    <div class="col-sm-2">
+                        <select name="type_asset_bundle">
+                            <option value="increase">增加</option>
+                            <option value="reduce">减少</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="input-large" name="asset_bundle" value="" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-5 control-label">激活码</label>
+                    <div class="col-sm-2">
+                        <select name="type_activation_code">
+                            <option value="increase">增加</option>
+                            <option value="reduce">减少</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="input-large" name="activation_code" value="" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-5 control-label">用户状态</label>
+                    <div class="col-sm-2">
+                        <select name="status">
+                            <option value="0" {if condition="$user['status'] eq 0"}selected{/if}>未激活</option>
+                            <option value="1" {if condition="$user['status'] eq 1"}selected{/if}>正常</option>
+                            <option value="2" {if condition="$user['status'] eq 2"}selected{/if}>冻结</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <input  type="hidden" name="user_id" value="{$user['user_id']|intval}"/>
+                <button type="submit" class="btn btn-primary" data-loading-text="保存中..." disabled>保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</form>

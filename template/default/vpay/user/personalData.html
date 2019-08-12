@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <script src="__VPAY__/assets/js/ios.js"></script>
+    <title>个人资料</title>
+</head>
+
+<body>
+    <div class="page">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">个人资料</div>
+                <!--<div class="header-right">-->
+                    <!--<a href="javascript:;" id="sub" onclick="sub();">保存</a>-->
+                <!--</div>-->
+            </div>
+        </div>
+        <div class="page-bd userData">
+            <!-- 页面内容 -->
+            <form id="form" action="" method="post" enctype="multipart/form-data">
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd fs28 color_3">
+                        头像
+                    </div>
+                    {if condition="$users.headimgurl eq ''"}
+                        {if condition="$appType neq 'IOS'"}
+                            <div class="weui-cell__ft"><img src="__VPAY__/assets/images/loginUser.png" alt="" class="userimg"></div>
+                            <input name="headimgurl" id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                        {else /}
+                            <div class="weui-cell__ft"><img src="__VPAY__/assets/images/loginUser.png" onclick="loadimg('headimgurl')" alt="" class="userimg"></div>
+                        {/if}
+
+                    {else}
+                        {if condition="$appType neq 'IOS'"}
+                            <div class="weui-cell__ft"><img src="__VPAY__/upload/headimgurl/{$users.headimgurl}" alt="" class="userimg"></div>
+                            <input name="headimgurl" id="uploaderInput1" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                        {else /}
+                            <div class="weui-cell__ft"><img src="__VPAY__/upload/headimgurl/{$users.headimgurl}" onclick="loadimg('headimgurl')"  alt="" class="userimg"></div>
+                        {/if}
+                    {/if}
+
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd fs28 color_3">
+                        ID号
+                    </div>
+                    <div class="weui-cell__ft fs28 color_6 userId">{$users.user_id}</div>
+                </div>
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd fs28 color_3">
+                        姓名
+                    </div>
+                    <div class="weui-cell__ft inputBox">
+                        <input class="weui-input userInput fs28 color_6" type="text" name="user_name"  placeholder="请输入姓名" value="{$users.user_name}">
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd fs28 color_3">
+                        性别
+                    </div>
+                    <div class="weui-cell__ft">
+                        {if condition="$users.sex eq 1"}
+                        <input class="weui-input userInput fs28 color_6" type="text" name="sex" placeholder="请选择性别" readonly value="男" id="sex">
+                        {else}
+                        <input class="weui-input userInput fs28 color_6" type="text" name="sex"  placeholder="请选择性别" readonly value="女" id="sex">
+                        {/if}
+
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd fs28 color_3">
+                        生日
+                    </div>
+                    <div class="weui-cell__ft">
+                        {if condition="$users.birthday eq ''"}
+                            <input class="weui-input userInput fs28 color_6" type="text"  name="birthday" placeholder="请选择生日" readonly value="" id="birthday">
+                        {else /}
+                            <input class="weui-input userInput fs28 color_6" type="text"  name="birthday" placeholder="{$users.birthday}" readonly value="" id="birthday">
+                        {/if}
+
+                    </div>
+                </div>
+            </div>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd fs28 color_3">
+                        手机号
+                    </div>
+                    <div class="weui-cell__ft inputBox">
+                        <input class="weui-input userInput fs28 color_6" type="text" name="mobile" placeholder="请输入手机号" value="{$users.mobile}">
+                    </div>
+                </div>
+            </div>
+                <div class="images-list"><!--上传图片列表--></div>
+                <input type="hidden" name="user_id" value="{$users.user_id}">
+            </form>
+        </div>
+        <div class="butBox">
+            <div class="but" onclick="sub();">保存信息</div>
+        </div>
+    </div>
+    {include file="public/js"}
+    <script>
+        var img_type = '';
+    $(function() {
+        $('.inputBox').on('click', function() {
+            $(this).find('input').focus();
+            $(this).find('input').val('');
+        })
+        $("#sex").picker({
+            title: "请选择性别",
+            cols: [{
+                textAlign: 'center',
+                values: ['男', '女']
+            }]
+        });
+        $("#birthday").datetimePicker({
+            times: function() {
+                return [];
+            }
+        }).val();
+        $("input[type='file']").change(function() {
+            var file = this.files[0];
+            if (window.FileReader) {
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                //监听文件读取结束后事件
+                reader.onloadend = function(e) {
+                    // console.log(e.target.result+"路径")
+                    $(".userimg").attr("src", e.target.result); //e.target.result就是最后的路径地址
+                };
+            }
+        });
+    })
+
+    function sub(){
+        $.ajax({
+            url: "{:url('/vpay/user/personalData')}",
+            type: 'POST',
+            cache: false,
+            data: new FormData($('#form')[0]),
+            processData: false,
+            contentType: false,
+            dataType:"json",
+            success : function(data) {
+                console.log(data);
+                if(data.status==1){
+                    layer.msg(data.msg, { icon: 1, time: 3000 }, function () {
+                        window.location = "{:url('/vpay/user/index')}";
+                    });
+                }else{
+                    layer.msg(data.msg, { icon: 5, time: 3000 });
+                    return false;
+                }
+            }
+        });
+    }
+
+    function appeal(id){
+        $.ajax({
+            'url':"{:url('/vpay/MutualBilling/complain_order')}",
+            'type':'post',
+            'data':{'id':id},
+            'dataType':'json',
+            'success':function(data){
+                if(data.status==1){
+                    layer.msg(data.msg, { icon: 1, time: 2000 }, function () {
+                        window.location = "{:url('/vpay/user/index')}";
+                    });
+                }else{
+                    layer.msg(data.msg, { icon: 5, time: 2000 });
+                    return false;
+                }
+            }
+        });
+    }
+
+    function AppReturnBase64Image(base64imag){
+        $.ajax({
+            'url':"{:url('User/uploadimage')}",
+            'type':'post',
+            'data':{'img':base64imag,'img_type':img_type},
+            'dataType':'json',
+            'success':function(data){
+                // layer.msg(data.image_path, { icon: 5, time: 5000 });
+                if(data){
+                    if(data.img_type=='headimgurl'){
+                        $('.userimg').attr('src','__VPAY__/upload/headimgurl/'+data.image_path);
+                        var str= '<input type="hidden" value="' + data.image_path + '" placeholder="上传图片返回URM" name="headimgurl" class="imagesinput"/>';
+                    }
+                    $('.images-list').append(str);
+                }else{
+                    layer.msg('二维码上传失败', { icon: 5, time: 3000 });
+                    return false;
+                }
+            }
+        });
+    }
+
+    function loadimg(uploadfile){
+        img_type = uploadfile;
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) { //ios
+            window.app.Photo();
+        }
+    }
+
+    function convertBase64UrlToBlob(urlData){
+
+        var bytes=window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte
+
+        //处理异常,将ascii码小于0的转换为大于0
+        var ab = new ArrayBuffer(bytes.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < bytes.length; i++) {
+            ia[i] = bytes.charCodeAt(i);
+        }
+
+        return new Blob( [ab] , {type : 'image/png'});
+    }
+    </script>
+</body>
+
+</html>

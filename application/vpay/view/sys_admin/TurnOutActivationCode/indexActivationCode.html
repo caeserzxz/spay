@@ -1,0 +1,36 @@
+{extend name="mainadmin@layouts/base" /}
+{block name="main" }
+
+<header class="header  b-b clearfix">
+    <form id="forms" class="talbe-search form-inline "  method="post" action="{:url('getListActivationCode')}" >
+     <div class="page-breadcrumbs">
+
+            <select name="time_type"  style="width: 130px;" data-toggle="select2">
+                <option value="">选择时间类型</option>
+                <option value="time">交易时间</option>
+            </select>
+
+            <a class="btn btn-default time_sel" data-toggle="reportrange" data-change="submit">
+                <i class="fa fa-calendar fa-lg"></i>
+                <span></span> <b class="caret"></b>
+                <input type="hidden" value="{$start_date} - {$end_date}" id="reportrange" name="reportrange" />
+            </a>
+            <a class="btn btn-default time_sel">
+                <span>转出用户ID:</span>
+                <input type="text" value="" name="out_user_id" />
+            </a>
+            <button class="btn btn-sm btn-default-iq" type="submit" title="搜索"><i class="fa fa-search"></i></button>
+
+        </div>
+    </form>
+</header>
+
+<section class="scrollable wrapper w-f ">
+    <section class="panel panel-default ">
+        <div class="table-responsive " id="list_box">
+            {include file="sys_admin/TurnOutActivationCode/listActivationCode" /}
+        </div>
+    </section>
+</section>
+
+{/block}

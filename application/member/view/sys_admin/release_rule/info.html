@@ -1,0 +1,31 @@
+<form class="form-horizontal form-validate " method="post" action="{:url('info')}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{$row['id']>0?'编辑':'添加'}等级</h4>
+            </div>
+            <div class="modal-body">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">直推推荐（）会员 最小值</label>
+                            <div class="col-sm-6 ">
+                                <input aria-required="true" class="input-small" data-rule-required="true" name="min" value="{$row.min}" data-rule-integer="true" type="text"><span class="maroon">*</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">直推推荐（）会员 最大值</label>
+                            <div class="col-sm-6 ">
+                                <input aria-required="true" class="input-small" data-rule-required="true" name="max" value="{$row.max}" data-rule-integer="true" type="text"><span class="maroon">*</span>
+                            </div>
+                        </div>
+
+            </div>
+            <div class="modal-footer">
+                <input  type="hidden" name="id" value="{$row.id|intval}"/>
+                <button type="submit" class="btn btn-primary" data-loading-text="保存中..." disabled>保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<hEACad>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title> 激活 </title>
+</head>
+
+<body>
+    <div class="page pay">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">激活</div>
+                <div class="header-right">
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd">
+            <!-- 页面内容-->
+            <div class="userData">
+                <div></div>
+                <a href="{:url('User/assetsBundleDetails')}" class="dataBox"><span class="num fs38 color_3">{$assets['asset_bundle']}</span>
+                    <p class="fs24 color_6">我的资产</p>
+                </a>
+                <div></div>
+                <a href="{:url('User/couponDetails')}" class="dataBox"><span class="num fs38 color_3">{$assets['coupon']}</span>
+                    <p class="fs24 color_6">EAC券</p>
+                </a>
+                <div class="dataBox"></div>
+                <a href="{:url('User/activationCodeDetails')}" class="dataBox"><span class="num fs38 color_3">{$assets['activation_code']}</span>
+                    <p class="fs24 color_6">激活码</p>
+                </a>
+            </div>
+            <div class="weui-cells weui-cells_form activate">
+                <div class="bok">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label fs28 color_3">激活账户</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="请输入被激活账户ID" id="mobile">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label fs28 color_3">激活数量</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="请输入激活码数量" id="amount">
+                        </div>
+                    </div>
+                    <div class="fs26 color_r tips">最少激活数量：{$config['min']} &nbsp;&nbsp;&nbsp;最多激活数量：{$config['max']}</div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label fs28 color_3">支付密码</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="password" placeholder="请输入支付密码" id="payPwd">
+                        </div>
+                        <div class="weui-cell__ft ere">
+                            <img src="__VPAY__/assets/images/ere_no.png" alt="" data-type="no">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="butBox" id="confirm">
+                <div class="but fs32 fw_b color_w">确认</div>
+            </div>
+        </div>
+    </div>
+
+    {include file="public/js"}
+
+    <script>
+        $(function(){
+            $('.ere').on('click', function() {
+                let obj = $(this).find('img');
+                let typeVal = obj.attr('data-type');
+                if (typeVal == 'no') {
+                    obj.attr('src', '__VPAY__/assets/images/ere_off.png')
+                    obj.attr('data-type', 'off')
+                    $(this).siblings('div').find('input').attr('type', 'text')
+                } else {
+                    obj.attr('src', '__VPAY__/assets/images/ere_no.png')
+                    obj.attr('data-type', 'no')
+                    $(this).siblings('div').find('input').attr('type', 'password')
+                }
+            })
+        })
+    $('#confirm').click(function() {
+        var param = new Object();
+        param.mobile = $('#mobile').val();
+        param.amount = $('#amount').val();
+        param.payPwd = $('#payPwd').val();
+
+        if(param.mobile == '') return layer.msg('请输入激活账户ID', {icon:2});
+        if(param.amount == '') return layer.msg('请输入激活数量', {icon:2});
+        if(param.payPwd == '') return layer.msg('请输入支付密码', {icon:2});
+
+        $.post('', param, function(info) {
+
+            if(info.code != 1) return layer.msg(info.msg, {icon:2});
+
+            layer.msg(info.msg, {icon:1}, function(res) {
+                var url = '{:url('User/activationCodeDetails')}';
+                window.location.href = url;
+            });
+        }, 'json');
+    });
+    </script>
+</body>
+
+</html>

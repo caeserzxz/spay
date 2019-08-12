@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <script src="__VPAY__/assets/js/ios.js"></script>
+    <title>今日需打款</title>
+    <style>
+
+          .weui-cell__ft {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .weui-cell__ft img {
+            width: 0.173333rem;
+            height: 0.173333rem;
+            margin-right: 0.053333rem;
+        }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page dealData">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">今日需打款</div>
+                <div class="header-right">
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd receiptInfo">
+            <!-- 页面内容 -->
+            <div class="title fs26 color_3">
+                对方账号 : {$pay_info.uid}
+            </div>
+            <div class="weui-cells weui-cells_form">
+                <!--<div><span class="color_3">收款人：</span><span class="color_6">{$pay_info.wx_name}</span>-->
+                <!--</div>-->
+                <!--<div><span class="color_3">收款人手机：</span><span class="color_6">{$user_personal.mobile}</span></div>-->
+                <!--<div><span class="color_3">开户银行：</span><span class="color_6">{$pay_info.bank_name}</span></div>-->
+                <!--<div><span class="color_3">银行卡号：</span><span class="color_6">{$pay_info.bank_number}</span></div>-->
+                <!--<div><span class="color_3">支付宝：</span><span class="color_6">{$pay_info.alipay_number}</span></div>-->
+                <!--<div><span class="color_3">打款金额：</span><span class="color_6">￥{$order.money}</span></div>-->
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label fs28 color_3">收款人</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input fs28 color_6" type="text"  value="{$pay_info.bank_user_name}" placeholder="">
+                    </div>
+                    <div class="weui-cell__ft" onclick="copyUrl2(this)">
+                        <img src="__VPAY__/assets/images/copy.png" alt="">
+                        <span class="fs24 color_b">复制</span>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label fs28 color_3">收款人手机</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input fs28 color_6" type="text" value="{$user_personal.mobile}" placeholder="">
+                    </div>
+                    <div class="weui-cell__ft" onclick="copyUrl2(this)">
+                        <img src="__VPAY__/assets/images/copy.png" alt="">
+                        <span class="fs24 color_b">复制</span>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label fs28 color_3">开户银行</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input fs28 color_6" type="text"  value="{$pay_info.bank_name}" placeholder="">
+                    </div>
+                    <div class="weui-cell__ft" onclick="copyUrl2(this)">
+                        <img src="__VPAY__/assets/images/copy.png" alt="">
+                        <span class="fs24 color_b">复制</span>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label fs28 color_3">银行卡号</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input fs28 color_6" type="text"   value="{$pay_info.bank_number}" placeholder="">
+                    </div>
+                    <div class="weui-cell__ft" onclick="copyUrl2(this)">
+                        <img src="__VPAY__/assets/images/copy.png" alt="">
+                        <span class="fs24 color_b">复制</span>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label fs28 color_3">支付宝</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input fs28 color_6" type="text"   value="{$pay_info.alipay_number}" placeholder="">
+                    </div>
+                    <div class="weui-cell__ft" onclick="copyUrl2(this)">
+                        <img src="__VPAY__/assets/images/copy.png" alt="">
+                        <span class="fs24 color_b">复制</span>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label fs28 color_3">打款金额</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input fs28 color_6" type="text"  value="{$order.money}" placeholder="">
+                    </div>
+                    <div class="weui-cell__ft" onclick="copyUrl2(this)">
+                        <img src="__VPAY__/assets/images/copy.png" alt="">
+                        <span class="fs24 color_b">复制</span>
+                    </div>
+                </div>
+            </div>
+                <!-- 状态3 -->
+            <div class="block fs28">
+                <div><span class="color_3">微信打款二维码：</span><img style="width: 240px;height: 300px;" src="__VPAY__/upload/wx_code_img/{$pay_info.wx_code_img}" alt=""></div>
+
+                <div><span class="color_3">支付宝打款二维码：</span><img style="width:240px;height: 300px;" src="__VPAY__/upload/alipay_code_img/{$pay_info.alipay_code_img}" alt=""></div>
+                <!-- 状态3 -->
+                <div><span class="color_3">上传打款凭证</span></div>
+                <form id="form" action="" method="post" enctype="multipart/form-data">
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-uploader">
+                            <div class="weui-uploader__bd">
+                                {if condition="$order.voucher eq ''"}
+                                    {if condition="$appType neq 'IOS'"}
+                                        <img class="img" src="__VPAY__/assets/images/addImg01.png" alt="">
+                                        <input name="voucher" id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                                    {else /}
+                                        <img class="img" src="__VPAY__/assets/images/addImg01.png" onclick="loadimg('voucher')" alt="">
+                                    {/if}
+
+                                {else /}
+                                    {if condition="$appType neq 'IOS'"}
+                                        <img class="img" style="width: 340px;height: 450px;" src="__VPAY__/upload/voucher/{$order.voucher}" alt="">
+                                    {else /}
+                                        <img class="img" style="width: 340px;height: 450px;" onclick="loadimg('voucher')" src="__VPAY__/upload/voucher/{$order.voucher}" alt="">
+                                    {/if}
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="images-list"><!--上传图片列表--></div>
+                    <input id='order_status' type="hidden" name="order_status" value="">
+                    <input id='id' type="hidden" name="id" value="">
+                </form>
+            </div>
+            {if condition="$order.order_status eq 1"}
+
+            <div class="butBox" onclick="update_status({$order.id},3);">
+                    <div class="but fw_b color_w">给对方打款后点击确认</div>
+                </div>
+
+            {elseif  condition="$order.order_status eq 3 and $order.status eq 2" /}
+                <div class="butBox">
+                    <div class="but fw_b color_w BGcolor_8">等待对方确认收款中</div>
+                </div>
+            {elseif  condition="$order.order_status eq 3 and $order.status eq 4" /}
+                <div class="butBox">
+                    <div class="but fw_b color_w">打款已完成</div>
+                </div>
+            {/if}
+            {if condition="$is_overtime eq 1 AND $order.order_status eq 3 AND $order.status neq 4"}
+                <div class="butBox">
+                    <div class="but fw_b color_w"  onclick="appeal({$order.id});">申诉</div>
+                </div>
+            {/if}
+            <!-- 状态1 -->
+            <!--<div class="butBox">-->
+                <!--<div class="but fw_b color_w BGcolor_8">打款已完成,等待对方确认收款中</div>-->
+            <!--</div>-->
+            <!-- 状态1 -->
+            <!-- 状态2 -->
+            <!--<div class="butBox">-->
+                <!--<div class="but fw_b color_w">打款已完成</div>-->
+            <!--</div>-->
+            <!-- 状态2 -->
+            <!-- 状态3 -->
+            <!--<div class="butBox">-->
+                <!--<div class="but fw_b color_w">给对方打款后点击确认</div>-->
+            <!--</div>-->
+            <!-- 状态3 -->
+        </div>
+    </div>
+    {include file="public/js"}
+
+</body>
+<script>
+    var img_type = '';
+    function copyUrl2(obj)
+    {
+        var Url2 = $(obj).prev().children('input')[0];
+        // console.log(Url2);
+        Url2.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        //alert("已复制好，可贴粘。");
+        layer.msg("已复制好，可贴粘。");
+
+    }
+    function update_status(id,order_status){
+
+        $('#order_status').val(order_status);
+        $('#id').val(id);
+
+        $.ajax({
+            url: "{:url('/vpay/MutualBilling/update_makeorder_status')}",
+            type: 'POST',
+            cache: false,
+            data: new FormData($('#form')[0]),
+            processData: false,
+            contentType: false,
+            dataType:"json",
+            success : function(data) {
+                if(data.status==1){
+                    layer.msg(data.msg, { icon: 1, time: 2000 }, function () {
+                        window.location.reload();
+                    });
+                }else{
+                    layer.msg(data.msg, { icon: 5, time: 2000 });
+                    return false;
+                }
+            }
+        });;
+
+    }
+    $("input[type='file']").change(function() {
+        var file = this.files[0];
+        if (window.FileReader) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            //监听文件读取结束后事件
+            reader.onloadend = function(e) {
+                // console.log(e.target.result+"路径")
+                $(".img").attr("src", e.target.result); //e.target.result就是最后的路径地址
+            };
+        }
+    });
+    function appeal(id){
+        $.ajax({
+            'url':"{:url('/vpay/MutualBilling/complain_order')}",
+            'type':'post',
+            'data':{'id':id},
+            'dataType':'json',
+            'success':function(data){
+                if(data.status==1){
+                    layer.msg(data.msg, { icon: 1, time: 2000 }, function () {
+                        window.location = "{:url('/vpay/user/index')}";
+                    });
+                }else{
+                    layer.msg(data.msg, { icon: 5, time: 2000 });
+                    return false;
+                }
+            }
+        });
+    }
+
+    function AppReturnBase64Image(base64imag){
+        $.ajax({
+            'url':"{:url('User/uploadimage')}",
+            'type':'post',
+            'data':{'img':base64imag,'img_type':img_type},
+            'dataType':'json',
+            'success':function(data){
+                // layer.msg(data.image_path, { icon: 5, time: 5000 });
+                if(data){
+                    if(data.img_type=='voucher'){
+                        $('.img').attr('src','__VPAY__/upload/voucher/'+data.image_path);
+                        var str= '<input type="hidden" value="' + data.image_path + '" placeholder="上传图片返回URM" name="voucher" class="imagesinput"/>';
+                    }
+                    $('.images-list').append(str);
+                }else{
+                    layer.msg('二维码上传失败', { icon: 5, time: 3000 });
+                    return false;
+                }
+            }
+        });
+    }
+
+    function loadimg(uploadfile){
+        img_type = uploadfile;
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) { //ios
+            window.app.Photo();
+        }
+    }
+
+    function convertBase64UrlToBlob(urlData){
+
+        var bytes=window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte
+
+        //处理异常,将ascii码小于0的转换为大于0
+        var ab = new ArrayBuffer(bytes.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < bytes.length; i++) {
+            ia[i] = bytes.charCodeAt(i);
+        }
+
+        return new Blob( [ab] , {type : 'image/png'});
+    }
+
+</script>
+</html>

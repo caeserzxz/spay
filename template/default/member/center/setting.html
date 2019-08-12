@@ -1,0 +1,30 @@
+{extend name="layouts@base" /}
+{block name="head"}
+<link rel="stylesheet" href="__STATIC__/mobile/default/css/userData.css" />
+{/block}
+
+{block name="main" }
+<div class="page-bd userData">
+    <!-- 页面内容-->
+    <div class="cells">
+
+        <a href="{:url('editPwd')}" class=" cell cell_access noline">
+            <div class="cell_bd"><span class="fs28 color_3 fw_b">修改密码</span></div>
+            <div class="cell_ft">
+               
+            </div>
+        </a>
+
+        <div  class=" cell" v5_href>
+            <div class="cell_bd"><span class="fs28 color_3 fw_b">联系客服</span></div>
+            <div class="cell_ft">
+                <p class="fs28 color_9"></p>
+              
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="footer"}
+{/block}

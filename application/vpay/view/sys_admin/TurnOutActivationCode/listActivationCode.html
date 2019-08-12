@@ -1,0 +1,82 @@
+<table class="table table-striped  m-b-none">
+<thead>
+<tr>
+	<th class="th-sortable">订单id</th>
+    <th>转出用户</th>
+    <th>转出金额</th>
+    <th>转出后余额</th>
+
+    <th>一级获得sea券</th>
+    <th>一级获得sea券后余额</th>
+    <th>一级sea券比例</th>
+
+    <th>一级获得资产包</th>
+    <th>一级获得资产包后余额</th>
+    <th>一级资产包比例</th>
+
+    <th>二级收益用户</th>
+    <th>二级获得资产包</th>
+    <th>二级获得资产包后余额</th>
+    <th>二级资产包比例</th>
+
+    <th>激活用户</th>
+    <th>接收sea券</th>
+    <th>sea券比例</th>
+
+    <th>接收资产包</th>
+    <th>资产包比例</th>
+    <th>资产包倍数</th>
+    <th>交易时间</th>
+    <!-- <th width="160">操作</th> -->
+</tr>
+</thead>
+<tbody>
+
+{volist name="data.list" id="vo" }
+<tr>
+
+    <td>{$vo.id}</td>
+    <td>{:getUserName($vo.out_user_id) . ' ID:' . $vo.out_user_id}</td>
+    <td>{$vo.out_amount}</td>
+    <td>{$vo.out_balance_after}</td>
+
+    <td>{$vo.first_level_coupon}</td>
+    <td>{$vo.first_level_coupon_after}</td>
+    <td>{$vo.first_level_coupon_proportion}</td>
+
+    <td>{$vo.first_level_assets_bundle}</td>
+    <td>{$vo.first_level_assets_bundle_after}</td>
+    <td>{$vo.first_level_assets_bundle_proportion}</td>
+
+    <td>{:getUserName($vo.two_level_user_id) . ' ID:' . $vo.two_level_user_id}</td>
+    <td>{$vo.two_level_assets_bundle}</td>
+    <td>{$vo.two_level_assets_bundle_after}</td>
+    <td>{$vo.two_level_assets_bundle_proportion}</td>
+
+    <td>{:getUserName($vo.receive_user_id) . ' ID:' . $vo.receive_user_id}</td>
+    <td>{$vo.receive_coupon}</td>
+    <td>{$vo.receive_coupon_proportion}</td>
+
+    <td>{$vo.receive_assets_bundle}</td>
+    <td>{$vo.receive_assets_bundle_proportion}</td>
+
+    <td>{$vo.multiple_assets_bundle}</td>
+    <td>{:date('Y-m-d H:i:s', $vo.time)}</td>
+
+    <!--
+    <td>
+        <a href="{:url('order_info',array('id'=>$vo['b_id']))}" class="m-xs" title="查看详细信息">
+            <i class="fa fa-edit"></i>
+        </a>
+    </td>
+     -->
+</tr>
+
+{/volist}
+</tbody>
+</table>
+{empty name="data.list"}
+<table width="100%" >
+ 	<tr><td height="300" colspan="8" align="center" valign="middle" >没有相关数据！</td></tr>
+</table>
+{/empty}

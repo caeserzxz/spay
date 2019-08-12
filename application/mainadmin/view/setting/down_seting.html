@@ -1,0 +1,115 @@
+{extend name="mainadmin@layouts/base" /}
+{block name="main" }
+<style>
+    @media (min-width: 768px){
+        .col-sm-2 {
+            width: 44.333333% !important;
+        }
+    }
+</style>
+<header class="header  b-b clearfix">
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-ellipsis-v"></i>
+                <strong>下载配置</strong>
+            </li>
+        </ul>
+    </div>
+</header>
+<section class="scrollable  wrapper">
+    <form class="form-horizontal form-validate" method="post" action=""  enctype="multipart/form-data">
+        <section class="panel panel-default">
+            <header>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#basic" data-toggle="tab">下载配置</a></li>
+                    <!-- <li><a href="#about_us" data-toggle="tab">关于我们</a></li> -->
+                </ul>
+            </header>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="basic">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">安卓下载链接</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[android_link]" class="input-max" data-rule-required="true"
+                                   value="{$setting.android_link}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">安卓下载二维码</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" class="input-max" disabled data-rule-required="true"
+                                   value="{$setting.android_code}">
+                            <input type="file" name="android_code" value="">
+                        </div>
+                    </div>
+
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-2 control-label">安卓安装包</label>-->
+                        <!--<div class="controls col-sm-4 ">-->
+                            <!--<input type="text"  class="input-max" name="setting[android_apk]" data-rule-required="true"-->
+                                   <!--value="{$setting.android_apk}">-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">ios下载链接</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[ios_link]"  class="input-max" data-rule-required="true"
+                                   value="{$setting.ios_link}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">ios下载二维码</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[ios_code]"  disabled  class="input-max" data-rule-required="true"
+                                   value="{$setting.ios_code}">
+                            <input type="file" name="ios_code">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="tab-pane " id="about_us">
+                    <div class="form-group">
+                        <label class="control-label">是否显示：</label>
+                        <div class="controls">
+                            <label class="radio-inline">
+                                <input name="setting[about_us_status]" value="0" class="js_undertake"
+                                       type="radio" {$setting['about_us_status']|tplckval='=0','checked',true}>隐藏
+                            </label>
+                            <label class="radio-inline">
+                                <input name="setting[about_us_status]" value="1"  class="js_undertake "
+                                       type="radio" {$setting['about_us_status']|tplckval='=1','checked'}>
+                                显示
+                            </label>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="form-group publicnote_status">
+                        <label class="control-label">关于我们：</label>
+                        <div class="col-sm-9 " style="padding-left:0px;">
+                            <textarea rows="8" class="input-max hd" data-toggle="kindeditor" data-config="simple"
+                                      data-kdheight="150" data-tongji="remain"
+                                      data-tongji-target=".js_kindeditor_tongji" data-rule-rangelength="[0,50000]" d
+                                      name="setting[about_us]" style="visibility:hidden;">{$setting.about_us}</textarea>
+                            <p class="pull-right js_kindeditor_tongji">还可输入{0}字</p>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <div class="line line-dashed line-lg pull-in" style="width:99%;"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary" data-loading-text="保存中...">保存</button>
+                    <button type="button" class="btn btn-default" data-toggle="back">取消</button>
+                </div>
+            </div>
+
+        </section>
+
+</section>
+{/block}

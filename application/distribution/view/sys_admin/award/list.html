@@ -1,0 +1,31 @@
+<table class="table table-striped  m-b-none">
+<thead>
+<tr>
+  <th>奖项名称</th>
+  <th>参与分销身份</th>
+  <th width="150">更新时间</th>
+  <th width="100">操作</th>
+</tr>
+</thead>
+<tbody>
+
+{volist name="data.list" id="vo" }
+<tr>
+    <td>{$vo.award_name}</td>
+    <td>{$vo.limit_role_name}</td>
+    <td>{$vo.update_time|dateTpl}</td>
+    <td>  <a href="{:url('info',array('award_id'=>$vo['award_id']))}"   class="m-xs" title="编辑">
+            <i class="fa fa-edit text-muted"></i>
+        </a>
+        <a href="{:url('delete',array('award_id'=>$vo['award_id']))}" data-toggle="ajaxRemove" data-msg="确定删除 {$vo.award_name}" class="m-xs" title="删除">
+            <i class="fa fa-trash-o text-muted"></i>
+        </a></td>
+</tr>
+{/volist} 
+</tbody>
+</table>
+{empty name="data.list"}
+<table width="100%" >
+ 	<tr><td height="300" colspan="8" align="center" valign="middle" >没有相关数据！</td></tr>
+</table>
+{/empty}  

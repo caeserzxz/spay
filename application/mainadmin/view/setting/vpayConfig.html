@@ -1,0 +1,213 @@
+{extend name="mainadmin@layouts/base" /}
+{block name="main" }
+<style>
+    @media (min-width: 768px){
+        .col-sm-2 {
+            width: 44.333333% !important;
+        }
+    }
+</style>
+<header class="header  b-b clearfix">
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-ellipsis-v"></i>
+                <strong>释放配置</strong>
+            </li>
+        </ul>
+    </div>
+</header>
+<section class="scrollable  wrapper">
+    <form class="form-horizontal form-validate" method="post" action="{:url('save')}">
+        <section class="panel panel-default">
+            <header>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#basic" data-toggle="tab">释放配置</a></li>
+                    <!-- <li><a href="#about_us" data-toggle="tab">关于我们</a></li> -->
+                </ul>
+            </header>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="basic">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">每天（）%从资产包释放（）%到SEA券和（）%到SEA通证   资产包：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[vpay_every_relesae_ratio_asset_bundle]" class="input-max" data-rule-required="true"
+                                   value="{$setting.vpay_every_relesae_ratio_asset_bundle}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">每天（）%从资产包释放（）%到SEA券和（）%到SEA通证   券：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[vpay_every_relesae_coupon]" class="input-max" data-rule-required="true"
+                                   value="{$setting.vpay_every_relesae_coupon}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">每天（）%从资产包释放（）%到SEA券和（）%到SEA通证   通证：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[vpay_every_relesae_pass_card]" class="input-max" data-rule-required="true"
+                                   value="{$setting.vpay_every_relesae_pass_card}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">第一层：A帮B激活，A得收益，用户A会得到（）%SEA券+（）% * （14.28）倍资产包   券：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[first_floor_reward_coupon]" class="input-max" data-rule-required="true"
+                                   value="{$setting.first_floor_reward_coupon}">
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">第一层：A帮B激活，A得收益，用户A会得到（）%SEA券+（）% * （14.28）倍资产包   资产包：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[first_floor_reward_asset_bundle]" class="input-max" data-rule-required="true"
+                                   value="{$setting.first_floor_reward_asset_bundle}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">第二层：B帮C激活，B的第一层收益，A得第二层收益，用户A会得到（）% * （14.28）倍资产包   资产包：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[two_floor_reward_asset_bundle]" class="input-max" data-rule-required="true"
+                                   value="{$setting.two_floor_reward_asset_bundle}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户激活会得到（）%SEA券+（）% * （14.28）倍资产包  券：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[activation_reward_coupon]" class="input-max" data-rule-required="true"
+                                   value="{$setting.activation_reward_coupon}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户激活会得到（）%SEA券+（）% * （14.28）倍资产包  资产包：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[activation_reward_asset_bundle]" class="input-max" data-rule-required="true"
+                                   value="{$setting.activation_reward_asset_bundle}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">资产包的倍数：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[multiple_asset_bundle]" class="input-max" data-rule-required="true"
+                                   value="{$setting.multiple_asset_bundle}">
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">通证的倍数   自己从SEA券转（）到通证，自己的（）倍通证：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[multiple_pass_card]" class="input-max" data-rule-required="true"
+                                   value="{$setting.multiple_pass_card}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">帮下级激活码最低（）最高（） 最低：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[activation_code_min]" class="input-max" data-rule-required="true"
+                                   value="{$setting.activation_code_min}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">帮下级激活码最低（）最高（） 最高：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[activation_code_max]" class="input-max" data-rule-required="true"
+                                   value="{$setting.activation_code_max}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">自己从SEA通证转（）到资产包自己得（）倍资产包：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[multiple_pass_card_turn_asset_bundle]" class="input-max" data-rule-required="true"
+                                   value="{$setting.multiple_pass_card_turn_asset_bundle}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户A转给用户B（）SEA券，用户A会得到（）% * （14.28）倍资产包   上级的资产包：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[superior_turn_asset_bundle]" class="input-max" data-rule-required="true"
+                                   value="{$setting.superior_turn_asset_bundle}">
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户A转给用户B（）SEA券，用户B会得到（）%SEA券+（20）% * （14.28）倍资产包  下级的资产包：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[subordinate_turn_asset_bundle]" class="input-max" data-rule-required="true"
+                                   value="{$setting.subordinate_turn_asset_bundle}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户A转给用户B（）SEA券，用户B会得到（）%SEA券+（20）% * （14.28）倍资产包  下级的券：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[subordinate_turn_coupon]" class="input-max" data-rule-required="true"
+                                   value="{$setting.subordinate_turn_coupon}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">当前价格：</label>
+                        <div class="controls col-sm-4 ">
+                            <input type="text" name="setting[current_price]" class="input-max" data-rule-required="true"
+                                   value="{$setting.current_price}">
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- <div class="tab-pane " id="about_us">
+                    <div class="form-group">
+                        <label class="control-label">是否显示：</label>
+                        <div class="controls">
+                            <label class="radio-inline">
+                                <input name="setting[about_us_status]" value="0" class="js_undertake"
+                                       type="radio" {$setting['about_us_status']|tplckval='=0','checked',true}>隐藏
+                            </label>
+                            <label class="radio-inline">
+                                <input name="setting[about_us_status]" value="1"  class="js_undertake "
+                                       type="radio" {$setting['about_us_status']|tplckval='=1','checked'}>
+                                显示
+                            </label>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="form-group publicnote_status">
+                        <label class="control-label">关于我们：</label>
+                        <div class="col-sm-9 " style="padding-left:0px;">
+                            <textarea rows="8" class="input-max hd" data-toggle="kindeditor" data-config="simple"
+                                      data-kdheight="150" data-tongji="remain"
+                                      data-tongji-target=".js_kindeditor_tongji" data-rule-rangelength="[0,50000]" d
+                                      name="setting[about_us]" style="visibility:hidden;">{$setting.about_us}</textarea>
+                            <p class="pull-right js_kindeditor_tongji">还可输入{0}字</p>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <div class="line line-dashed line-lg pull-in" style="width:99%;"></div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary" data-loading-text="保存中...">保存</button>
+                    <button type="button" class="btn btn-default" data-toggle="back">取消</button>
+                </div>
+            </div>
+
+        </section>
+
+</section>
+{/block}

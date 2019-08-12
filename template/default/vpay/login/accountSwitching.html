@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title>账号切换</title>
+    <style>
+        .weui-actionsheet__cell {
+            padding: 0.133333rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page" id="vue-app">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">账号切换</div>
+                <div class="header-right">
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd">
+            <!-- 页面内容 -->
+            <div class="weui-cells">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd fs28 color_3" onclick="jump('{:url('binderAccount')}');">
+                        添加子账号登录
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </div>
+
+                <template v-for="(item, index) in lst">
+
+                    <div class="weui-cell weui-cell_access operate" @click="loginClick(item.id, index)">
+                        <div class="weui-cell__bd fs28 color_3">
+                            <span style="margin-right: 0.266666rem">账号</span>
+                            <span v-text="item.sub_user_id"></span>
+                        </div>
+                        <div class="weui-cell__ft"></div>
+                    </div>
+
+                </template>
+            </div>
+        </div>
+    </div>
+    {include file="public/js"}
+    <script>
+        var lst = getHtml('{$lst}');
+        var lst = JSON.parse(lst);
+
+        // vue 初始化
+        var vue = new Vue({
+            el: '#vue-app',
+            data: {
+                lst: lst,
+            },
+
+            // 函数
+            methods: {
+
+                loginClick: function(id, index) {
+                    var self = this;
+                    $.actions({
+                        actions: [
+                            {
+                                text: "登录",
+                                onClick: function () {
+                                    self.loginAjax(id);
+                                }
+                            },
+                            {
+                                text: "删除",
+                                className: "color-danger",
+                                onClick: function () {
+                                    self.delAjax(id, index);
+                                }
+                            }
+                        ]
+                    });
+                },
+
+                loginAjax: function(id) {
+                    var self = this;
+                    var obj = {};
+                    obj.id = id;
+                    var index = layer.load();
+                    $.post('{:url("member/api.passport/loginSubaccount")}', obj, function(info) {
+                        layer.close(index);
+                        if (info.code != 1) return layer.msg(info.msg, {icon: 2});
+
+                        layer.msg(info.msg, {icon: 1}, function(){
+                            window.location.href = '{:url("index/index")}';
+                        });
+
+                    }, 'json');
+                },
+
+                delAjax: function(id, index) {
+                    var self = this;
+                    var obj = {};
+                    obj.id = id;
+                    var index = layer.load();
+                    $.post('{:url('')}', obj, function(info) {
+                        layer.close(index);
+
+                        if (info.code != 1) return layer.msg(info.msg, {icon: 2});
+
+                        layer.msg(info.msg, {icon: 1}, function(){
+                            self.lst.splice(index, 1);
+                        });
+
+                    }, 'json');
+                },
+            }
+        });
+
+    </script>
+</body>
+
+</html>

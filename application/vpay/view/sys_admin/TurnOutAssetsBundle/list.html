@@ -1,0 +1,62 @@
+<table class="table table-striped  m-b-none">
+<thead>
+<tr>
+	<th class="th-sortable">订单id</th>
+    <th>父级订单id</th>
+    <th>释放用户</th>
+    <td>释放比例</td>
+    <th>释放金额</th>
+    <th>释放后余额</th>
+
+    <th>获得sea券</th>
+    <th>获得sea券比例</th>
+
+    <th>接收sea通证</th>
+    <th>sea通证比例</th>
+
+    <th>释放比例id（关系链）</th>
+    <th>释放类型</th>
+    <th>释放时间</th>
+    <!-- <th width="160">操作</th> -->
+</tr>
+</thead>
+<tbody>
+
+{volist name="data.list" id="vo" }
+<tr>
+
+    <td>{$vo.id}</td>
+    <td>{$vo.pid}</td>
+    <td>{:getUserName($vo.out_user_id) . ' ID:' . $vo.out_user_id}</td>
+    <td>{$vo.out_proportion}</td>
+    <td>{$vo.out_amount}</td>
+    <td>{$vo.out_balance_after}</td>
+
+
+    <td>{$vo.get_coupon}</td>
+    <td>{$vo.get_coupon_proportion}</td>
+
+    <td>{$vo.get_pass_card}</td>
+    <td>{$vo.get_pass_card_proportion}</td>
+
+    <td>{$vo.release_proportion_id}</td>
+    <td>{:getTypeName($vo.type)}</td>
+    <td>{:date('Y-m-d H:i:s', $vo.time)}</td>
+
+    <!--
+    <td>
+        <a href="{:url('order_info',array('id'=>$vo['b_id']))}" class="m-xs" title="查看详细信息">
+            <i class="fa fa-edit"></i>
+        </a>
+    </td>
+     -->
+</tr>
+
+{/volist}
+</tbody>
+</table>
+{empty name="data.list"}
+<table width="100%" >
+ 	<tr><td height="300" colspan="8" align="center" valign="middle" >没有相关数据！</td></tr>
+</table>
+{/empty}

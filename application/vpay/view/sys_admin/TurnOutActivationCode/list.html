@@ -1,0 +1,45 @@
+<table class="table table-striped  m-b-none">
+<thead>
+<tr>
+	<th class="th-sortable">订单id</th>
+    <th>转出用户</th>
+    <th>转出金额</th>
+    <th>转出后余额</th>
+    <th>接收用户</th>
+    <th>接收激活码</th>
+    <th>接收激活码后余额</th>
+    <th>交易时间</th>
+    <!-- <th width="160">操作</th> -->
+</tr>
+</thead>
+<tbody>
+
+{volist name="data.list" id="vo" }
+<tr>
+
+    <td>{$vo.id}</td>
+    <td>{:getUserName($vo.out_user_id) . ' ID:' . $vo.out_user_id}</td>
+    <td>{$vo.out_amount}</td>
+    <td>{$vo.out_balance_after}</td>
+    <td>{:getUserName($vo.receive_user_id) . ' ID:' . $vo.receive_user_id}</td>
+    <td>{$vo.receive_activation_code}</td>
+    <td>{$vo.receive_activation_code_after}</td>
+    <td>{:date('Y-m-d H:i:s', $vo.time)}</td>
+
+    <!--
+    <td>
+        <a href="{:url('order_info',array('id'=>$vo['b_id']))}" class="m-xs" title="查看详细信息">
+            <i class="fa fa-edit"></i>
+        </a>
+    </td>
+     -->
+</tr>
+
+{/volist}
+</tbody>
+</table>
+{empty name="data.list"}
+<table width="100%" >
+ 	<tr><td height="300" colspan="8" align="center" valign="middle" >没有相关数据！</td></tr>
+</table>
+{/empty}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title>历史打款记录</title>
+</head>
+
+<body>
+    <div class="page dataDetail">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">历史打款记录</div>
+                <div class="header-right">
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd log">
+            <!-- 页面内容 -->
+            <div class="weui-cells">
+                {volist name="order" id="vol"}
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <p><span class="fs28 color_3">完成打款:{$vol.money}</span><span class="fs24 color_9"><?php echo(date('Y-m-d H:i:s',$vol['add_time']));?></span></p>
+                            <p>
+                                <span class="fs24 color_3">对方UID: {$vol.user_id}</span>
+                                {if condition="$vol.order_status eq 1"}
+                                    <span class="fs24 fw_b color_w type">待匹配中</span>
+                                {elseif condition="$vol.order_status eq 2" /}
+                                    <span class="fs24 fw_b color_w type">打款冻结中</span>
+                                {elseif condition="$vol.order_status eq 3" /}
+                                    <span class="fs24 fw_b color_w type">打款完成</span>
+                                {elseif condition="$vol.order_status eq 4" /}
+                                    <span class="fs24 fw_b color_w type">打款失败</span>
+                                {/if}
+                            </p>
+                        </div>
+                    </div>
+                {/volist}
+                <div id="overLast1"></div>
+                <div id="overLast" style="width:100%;height:0.666666rem;text-align: center;font-size: 0.25rem;color: #808080;"></div>
+            </div>
+        </div>
+        <input type="hidden" id="nowp" name="nowPage" value="1" />
+    </div>
+    {include file="public/js"}
+    <script>
+
+        $(function () {
+            var num = 0;
+            var  view = $('.page-bd')
+            view.scroll(function () {
+                var viewScro = view.scrollTop();
+                var viewH = view.height();
+                var hotBox = $(".weui-cells").height();
+
+                if (hotBox-viewScro<=viewH) {
+                    num++;
+                    if (num != 1) {
+                        return false;
+                    }
+
+                    var nowPage = parseInt($('#nowp').val()) + 1;
+                    $('#nowp').val(nowPage);
+                    $.ajax({
+                        'url':"{:url('/vpay/MutualBilling/historicalPayRecords')}",
+                        'type':'post',
+                        'data':{'p':nowPage},
+                        'dataType':'json',
+                        'success':function(data){
+                            console.log(data);
+                            // return false;
+                            var str='';
+                            if (data.length == 0) {
+                                num = 0;
+                                $('#overLast').html('已加载全部');
+                                return false;
+                            }
+
+
+                            if(data.length != 0){
+                                $.each(data, function (k, v) {
+                                    str+=  '<div class="weui-cell">'
+                                       +        '<div class="weui-cell__bd">'
+                                       +          '<p><span class="fs28 color_3">完成打款:'+ v.money+'</span><span class="fs24 color_9">'+ v.time+'</span></p>'
+                                       +          '<p><span class="fs24 color_3">对方UID: '+ v.user_id+'</span><span class="fs24 fw_b color_w type">'+ v.str_status+'</span></p>'
+                                       +         '</div>'
+                                       +     '</div>';
+                                });
+                                $('#overLast1').before(str);
+                                num = 0;
+                            }
+                        }
+                    });
+                }
+            });
+        })
+
+    </script>
+</body>
+
+</html>

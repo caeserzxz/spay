@@ -1,0 +1,94 @@
+<form class="form-horizontal form-validate " method="post" action="{:url('info')}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{$row['level_id']>0?'编辑':'添加'}等级</h4>
+            </div>
+            <div class="modal-body">
+
+                		<div class="form-group">
+                            <label class="col-sm-5 control-label"> 等级名称</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="input-large" data-rule-maxlength="20" data-rule-required="true" name="level_name" value="{$row.level_name}" ><span class="maroon">*</span>
+                            </div>
+                        </div>
+
+                        {if condition="$row['grade'] egt 3"}
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">加速释放A（级差）</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="input-large" data-rule-maxlength="20" data-rule-required="true" name="gradation" value="{$row.gradation}" > %
+                                    <span class="maroon"> *</span>
+                                </div>
+                            </div>
+                        {/if}
+
+                        {if condition="$row['grade'] eq 2"}
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">累计（）sea券</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="input-large" data-rule-maxlength="20" data-rule-required="true" name="cumulative_coupon" value="{$row.cumulative_coupon}" >
+                                    <span class="maroon"> *</span>
+                                </div>
+                            </div>
+                        {/if}
+
+                        {if condition="$row['grade'] eq 3"}
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">累计（）资产包</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="input-large" data-rule-maxlength="20" data-rule-required="true" name="cumulative_asset_bundle" value="{$row.cumulative_asset_bundle}" >
+                                    <span class="maroon"> *</span>
+                                </div>
+                            </div>
+                        {/if}
+
+                        {if condition="in_array($row['grade'], [4, 5])"}
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">伞下（）层内</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="input-large" data-rule-maxlength="20" data-rule-required="true" name="layer" value="{$row.layer}" >
+                                    <span class="maroon"> *</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">不同线内出现（）个上一等级的身份</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="input-large" data-rule-maxlength="20" data-rule-required="true" name="individual" value="{$row.individual}" >
+                                    <span class="maroon"> *</span>
+                                </div>
+                            </div>
+                        {/if}
+
+
+                        <!--
+                         <div class="form-group">
+                            <label class="col-sm-2 control-label"> 积分下限</label>
+                            <div class="col-sm-6 ">
+                                <input aria-required="true" class="input-small" data-rule-required="true" name="min" value="{$row.min}" data-rule-integer="true" type="text"><span class="maroon">*</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"> 积分上限</label>
+                            <div class="col-sm-6 ">
+                                <input aria-required="true" class="input-small" data-rule-required="true" name="max" value="{$row.max}" data-rule-integer="true" type="text"><span class="maroon">*</span>
+                            </div>
+                        </div>
+
+                         <div class="form-group">
+                            <label class="col-sm-2 control-label"> 等级折扣</label>
+                            <div class="col-sm-10 ">
+                                <input aria-required="true" class="input-small" data-rule-required="true" name="level_pro" value="{$row.level_pro|default=100}"  data-rule-decimal="2" max="100" min="1" type="text">%<span class="maroon">*</span> <span class="help-inline">会员价 = （商品售价 * 等级折扣）</span>
+                            </div>
+                        </div>
+                         -->
+            </div>
+            <div class="modal-footer">
+                <input  type="hidden" name="level_id" value="{$row.level_id|intval}"/>
+                <button type="submit" class="btn btn-primary" data-loading-text="保存中..." disabled>保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</form>

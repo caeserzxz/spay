@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title> 个人中心 </title>
+    <style>
+        .my .weui-popup__modal{
+            height: 50vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page my">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">个人中心</div>
+                <div class="header-right">
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd">
+            <!-- 页面内容-->
+            <div class="userData">
+                <img src="__VPAY__/upload/headimgurl/{$info['headimgurl']}" class="userimg" alt="">
+                <div class="fs28 color_w">
+                    <p>ID：{$info['user_id']}</p>
+                    {if condition="$info.member_name neq ''"}
+                        <p>用户名: {$info['member_name']}</p>
+                    {/if}
+                    <p>手机号：{$info['mobile']}</p>
+                    <p>姓名：{$info['user_name']}</p>
+                </div>
+            </div>
+            <div class="weui-cells">
+                <a href="{:url('personalData')}" class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd">
+                        <p class="fs28 color_3">个人资料</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a href="javascript:void(0);" class="weui-cell weui-cell_access" onclick="myReceiptInfo();">
+                    <div class="weui-cell__bd">
+                        <p class="fs28 color_3">收款信息</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a href="{:url('myTeam')}" class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd">
+                        <p class="fs28 color_3">我的团队</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                {if condition="!empty($parentInfo)"}
+                    <div onclick="showInfo()" class="weui-cell weui-cell_access">
+                        <div class="weui-cell__bd">
+                            <p class="fs28 color_3">查看推荐人</p>
+                        </div>
+                        <div class="weui-cell__ft"></div>
+                    </div>
+                {/if}
+            </div>
+            <div class="weui-cells">
+                <a href="{:url('Login/changePassword')}" class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd">
+                        <p class="fs28 color_3">密码设置</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a href="{:url('Login/changePayPassword')}" class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd">
+                        <p class="fs28 color_3">支付设置</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a href="{:url('Login/appDownload')}" class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd">
+                        <p class="fs28 color_3">APP下载码</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+
+                {if condition="$article"}
+                    <a href="{:url('shop/Article/info', ['id'=>$article['id']])}" class="weui-cell weui-cell_access">
+                        <div class="weui-cell__bd">
+                            <p class="fs28 color_3">关于我们</p>
+                        </div>
+                        <div class="weui-cell__ft"></div>
+                    </a>
+                {/if}
+
+                <a href="{:url('Login/binderAccount')}" class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd">
+                        <p class="fs28 color_3">多账户管理</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a href="{:url('Login/accountSwitching')}" class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd">
+                        <p class="fs28 color_3">换个新账号登录</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a href="{:url('logout')}" class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd">
+                        <p class="fs28 color_3">退出登录</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+            </div>
+
+            {if condition="!empty($parentInfo)"}
+                <div id="model" class="weui-popup__container popup-center">
+                    <div class="weui-popup__overlay"></div>
+                    <div class="weui-popup__modal">
+                        <p class="fs32 color_3">推荐人信息</p>
+                        <div class="fs26 color_3 data">推荐人UID：<span>{$parentInfo['user_id']}</span></div>
+                        <div class="fs26 color_3 data">推荐人手机号：<span>{$parentInfo['mobile']}</span></div>
+                        <div class="fs26 color_3 data">推荐人姓名：<span>{$parentInfo['user_name']}</span></div>
+                        <div class="modelBtn fs30 color_b" id="modelBtn">确定</div>
+                    </div>
+                </div>
+            {/if}
+        </div>
+
+        {include file="public/footer"}
+
+    </div>
+    {include file="public/js"}
+    <script>
+    var  h_time = {$h_time};
+    // 底部导航切换
+    obj.setParam(obj.arr[3]);
+
+    function showInfo() {
+        $("#model").popup();
+    }
+    $('#modelBtn').click(function() {
+        $.closePopup();
+    });
+    function myReceiptInfo(){
+        if(h_time>12&&h_time<24){
+            layer.msg('中午12:00到晚上00:00不可添加保存收款信息。',{icon: 5,time:3000});
+            return false;
+        }
+        layer.prompt({title: '请输入支付密码', formType: 1}, function(text, index){
+            $.ajax({
+                'url':"{:url('User/verification')}",
+                'type':'post',
+                'data':{'pay_password':text},
+                'dataType':'json',
+                'success':function(data){
+                   if(data.status==1){
+                        window.location.href = "{:url('User/myReceiptInfo')}";
+                   }else{
+                       layer.msg(data.msg,{icon: 5,time:3000})
+                   }
+                }
+            });
+        });
+    }
+    </script>
+</body>
+
+</html>

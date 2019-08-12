@@ -1,0 +1,69 @@
+{extend name="mainadmin@layouts/base" /}
+{block name="main" }
+
+<header class="header  b-b clearfix">
+    <form id="forms" class="talbe-search form-inline "  method="post" action="{:url('getList')}" >
+     <div class="page-breadcrumbs">
+            <!--<ul class="breadcrumb" >-->
+                <!--<li>-->
+                    <!--<i class="fa fa-ellipsis-v"></i>-->
+                    <!--<strong>{$is_ban==1?'封禁':''}会员列表</strong>-->
+                <!--</li>-->
+            <!--</ul>-->
+             <select name="status_type" id="status_type" style="width: 130px;" data-toggle="select2">
+                 <option value="">选择订单类型</option>
+                 <option value="1">待匹配</option>
+                 <option value="2">匹配中</option>
+                 <option value="3">冻结</option>
+                 <option value="4">完成</option>
+                 <option value="5">失败</option>
+             </select>
+            <select name="time_type" id="time_type" style="width: 130px;" data-toggle="select2">
+                    <option value="">选择时间类型</option>
+                    <option value="add_time">创建时间</option>
+                    <option value="matching_time">匹配时间</option>
+                    <!-- <option value="buy_time">购买时间</option> -->
+            </select>
+
+            <a class="btn btn-default time_sel" data-toggle="reportrange" data-change="submit">
+                    <i class="fa fa-calendar fa-lg"></i>
+                    <span></span> <b class="caret"></b>
+                    <input type="hidden" value="{$start_date} - {$end_date}" id="reportrange" name="reportrange" />
+             </a>
+             <!--
+             <select name="rode_id"  style="width: 130px;" data-toggle="select2" data-placeholder="按自定义筛选" data-chang="submit">
+                        <option value="">所有分销身份</option>
+                       {$roleOpt|raw}
+              </select>
+              -->
+              <!--<select name="level_id"  style="width: 130px;" data-toggle="select2" data-placeholder="按自定义筛选" data-chang="submit">-->
+                        <!--<option value="">所有等级</option>-->
+                       <!--{$levelOpt|raw}-->
+              <!--</select>-->
+              <input type="text" class="form-control input-large" value="{$search.keyword}" name="keyword" placeholder="会员ID" data-rule-required="true" />
+              <button class="btn btn-sm btn-default-iq" type="submit" title="搜索"><i class="fa fa-search">搜索</i></button>
+                &nbsp&nbsp
+         <button class="btn btn-sm btn-default-iq" type="button"  onclick="exportReport()" title="导出数据" ><i class="fa fa-plus">导出数据</i></button>
+        </div>
+    </form>
+</header>
+
+<section class="scrollable wrapper w-f ">
+    <section class="panel panel-default ">
+        <div class="table-responsive " id="list_box">
+            {include file="sys_admin/index/list" /}
+        </div>
+    </section>
+</section>
+<script>
+    //订单导出功能
+    function exportReport(){
+        var time_type = $('#time_type option:selected').val();
+        var reportrange = $('input[name=reportrange]').val();
+        var keyword = $('input[name=keyword]').val();
+        var status_type = $('#status_type option:selected').val();
+        window.location.href = "{:url('export_user')}?time_type="+time_type+'&reportrange='+reportrange+'&keyword='+keyword+'&status_type='+status_type;
+
+    }
+</script>
+{/block}

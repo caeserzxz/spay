@@ -1,0 +1,95 @@
+<script src="__VPAY__/assets/js/lib/jquery-2.1.4.js"></script>
+<script src="__VPAY__/assets/js/jquery-weui.min.js"></script>
+<script src="__VPAY__/assets/js/lib/fastclick.js"></script>
+<script src="__VPAY__/assets/js/Swiper-4.0.7/swiper.min.js"></script>
+<script src="__VPAY__/assets/js/layer/layer.js?v=1"></script>
+<script src="__VPAY__/assets/js/vue/vue_dev.js"></script>
+<script>
+    $(function() {
+        FastClick.attach(document.body);
+    });
+
+	// 链接跳转
+	function jump(url) {
+		if(url){
+			window.location.href = url;
+			return;
+		}
+		window.history.back(-1);
+	}
+
+	// 将实体转回为HTML
+    function getHtml(str){
+        var elem = document.createElement('div');
+        elem.innerHTML = str;
+        return elem.innerText || elem.textContent;
+    }
+
+    //滚动加载更多
+	function pagesFun(name = 'page-bd') {
+	    var loading = false;
+	    $('.' + name).infinite(100);
+	    $('.' + name).infinite().on("infinite", function() {
+	        if(loading){
+	            setTimeout(function(){
+	                loading = false;
+	            },500);
+	            return;
+	        }
+	        loading = true;
+	        setTimeout(function(){
+	            ++vue.currentPage;
+	            if(vue.lastPage < vue.currentPage){
+	                return;
+	            }
+	            vue.loadData();
+	            loading = false;
+	        },500);
+	    });
+	}
+
+	// 底部菜单设置
+	function setfooterNav(){
+		this.arr = {
+			0: 'indexs', // 首页
+			1: 'myAssets', // 我的资产
+			2: 'tradingMarket', // 交易市场
+			3: 'indexUser', // 个人中心
+		};
+		this.class = 'active';
+
+		this.init = function() {
+			if(!localStorage.getItem("cur")){
+				this.setParam();
+				return;
+			}
+			this.navSwitch();
+		}
+
+		// 设置参数
+		this.setParam = function(str = this.arr[0]) {
+			localStorage.setItem("cur", str);
+			this.navSwitch();
+		}
+
+		// 底部菜单切换
+		this.navSwitch = function(){
+			this.cur = localStorage.getItem("cur");
+
+			var obj = $('.' + this.cur);
+
+			// 当前cur不切换
+			if(obj.is('.' + this.class)){
+				return;
+			}
+
+			obj.siblings('a').removeClass(this.class);
+			obj.addClass(this.class)
+		}
+	}
+
+	// 初始化底部导航栏
+	var obj = new setfooterNav();
+	obj.init();
+
+</script>

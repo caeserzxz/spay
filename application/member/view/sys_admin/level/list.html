@@ -1,0 +1,72 @@
+<table class="table table-striped  m-b-none">
+<thead>
+<tr>
+  <th>等级名称</th>
+  <!-- <th>积分下限</th> -->
+  <!-- <th>积分上限</th> -->
+  <!-- <th>会员折扣</th> -->
+  <th>加速释放A（级差）</th>
+  <th>累计（）sea券</th>
+  <th>累计（）资产包</th>
+  <th>伞下（）层内</th>
+  <th>不同线内出现（）个上一等级的身份</th>
+  <th width="150">操作</th>
+</tr>
+</thead>
+<tbody>
+
+{volist name="data.list" id="vo" }
+<tr>
+    <td>{$vo.level_name}</td>
+    <!-- <td>{$vo.min}</td> -->
+    <!-- <td>{$vo.max}</td> -->
+    <!-- <td>{$vo.level_pro}%</td> -->
+
+    {if condition="$vo['gradation'] gt 0"}
+        <td>{$vo.gradation} %</td>
+    {else}
+        <td>/</td>
+    {/if}
+
+    {if condition="$vo['cumulative_coupon'] gt 0"}
+        <td>{$vo.cumulative_coupon}</td>
+    {else}
+        <td>/</td>
+    {/if}
+
+    {if condition="$vo['cumulative_asset_bundle'] gt 0"}
+        <td>{$vo.cumulative_asset_bundle}</td>
+    {else}
+        <td>/</td>
+    {/if}
+
+    {if condition="$vo['layer'] gt 0"}
+        <td>{$vo.layer}</td>
+    {else}
+        <td>/</td>
+    {/if}
+
+    {if condition="$vo['individual'] gt 0"}
+        <td>{$vo.individual}</td>
+    {else}
+        <td>/</td>
+    {/if}
+
+    {if condition="$vo['level_id'] neq 1"}
+    <td>  <a href="{:url('info',array('level_id'=>$vo['level_id']))}"  data-toggle="ajaxModal" class="m-xs" title="编辑">
+            <i class="fa fa-edit text-muted"></i>
+        </a>
+        <!-- <a href="{:url('delete',array('level_id'=>$vo['level_id']))}" data-toggle="ajaxRemove" data-msg="确定删除 {$vo.level_name}" class="m-xs" title="删除">
+            <i class="fa fa-trash-o text-muted"></i>
+        </a> -->
+    </td>
+    {/if}
+</tr>
+{/volist}
+</tbody>
+</table>
+{empty name="data.list"}
+<table width="100%" >
+ 	<tr><td height="300" colspan="8" align="center" valign="middle" >没有相关数据！</td></tr>
+</table>
+{/empty}

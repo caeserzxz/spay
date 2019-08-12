@@ -1,0 +1,33 @@
+{extend name="mainadmin@layouts/base" /}
+
+{block name="main" }
+
+<header class="header  b-b clearfix">
+     <form id="forms" class="talbe-search form-inline "  method="post" action="{:url('getList')}" >
+     <div class="page-breadcrumbs">
+            <ul class="breadcrumb" >
+                <li>
+                    <i class="fa fa-ellipsis-v"></i>
+                    <strong>模板列表</strong>
+                </li>                                  
+            </ul> {volist name="typeList" id="type"}
+
+         {/volist}
+            <select name="type"  style="width: 200px;" data-toggle="select2" data-placeholder="按自定义筛选" data-chang="submit">
+                   <option value="">全部类型</option>
+                {volist name="msgTplReplace" id="type"}
+                   <option value="{$key}" {$key==$search['type']?'selected':''}>{$type['name']}</option>
+                {/volist}
+            </select>
+      </div>
+      </form>
+</header>
+<section class="scrollable wrapper w-f ">
+    <section class="panel panel-default ">
+        <div class="table-responsive " id="list_box">
+            {include file="sys_admin/msg_tpl/list" /}
+        </div>
+    </section>
+ </section>
+
+{/block}

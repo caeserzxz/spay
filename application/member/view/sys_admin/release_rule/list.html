@@ -1,0 +1,46 @@
+<table class="table table-striped  m-b-none">
+<thead>
+<tr>
+  <th>直推推荐（）会员 最小值</th>
+  <th>直推推荐（）会员 最大值</th>
+  <th>拿下面（）代</th>
+  <th>添加时间</th>
+  <th>最后一次修改时间</th>
+  <th width="150">操作</th>
+</tr>
+</thead>
+<tbody>
+
+{volist name="data.list" id="vo" }
+<tr>
+    <td>{$vo.min}</td>
+    <td>{$vo.max}</td>
+    <td>{$vo.count}</td>
+    <td>{:date('Y-m-d H:i:s', $vo.time)}</td>
+    {if condition="$vo.update_time"}
+        <td>{:date('Y-m-d H:i:s', $vo.update_time)}</td>
+    {else}
+        <td>/</td>
+    {/if}
+
+
+    <td>
+        <a href="{:url('sys_admin.ReleaseProportion/index',['rule_id'=>$vo['id']])}" class="m-xs" title="添加释放比例">
+            <i class="fa fa-plus m-r-xs"></i>
+        </a>
+        <a href="{:url('info',array('id'=>$vo['id']))}"  data-toggle="ajaxModal" class="m-xs" title="编辑">
+            <i class="fa fa-edit text-muted"></i>
+        </a>
+        <a href="{:url('delete',array('id'=>$vo['id']))}" data-toggle="ajaxRemove" data-msg="确定删除" class="m-xs" title="删除">
+            <i class="fa fa-trash-o text-muted"></i>
+        </a>
+    </td>
+</tr>
+{/volist}
+</tbody>
+</table>
+{empty name="data.list"}
+<table width="100%" >
+ 	<tr><td height="300" colspan="8" align="center" valign="middle" >没有相关数据！</td></tr>
+</table>
+{/empty}

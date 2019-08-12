@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title>EAC通证明细</title>
+</head>
+
+<body>
+    <div class="page dataDetail" id="vue-app">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">EAC通证明细</div>
+                <div class="header-right">
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd Sea">
+            <!-- 页面内容 -->
+            <div class="weui-tab">
+                <div class="weui-navbar fw_b">
+                    <a class="weui-navbar__item weui-bar__item--on" @click="searchClick('')">全部</a>
+                    <a class="weui-navbar__item" @click="searchClick('income')">收入</a>
+                    <a class="weui-navbar__item" @click="searchClick('expenditure')">支出</a>
+                </div>
+                <div class="weui-tab__bd">
+                    <div class="weui-tab__bd-item weui-tab__bd-item--active">
+                        <div class="weui-cells">
+
+                            <template v-for="(item, index) in lst">
+
+                                <div class="weui-cell">
+                                    <div class="weui-cell__bd">
+                                        <span class="fs28 color_3" v-text="item.desc"></span>
+                                        <div>
+                                            <span class="fs24 color_9" v-text="item.time"></span>
+                                            <span class="fs30 fw_b color_b" v-text="item.amount"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </template>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {include file="public/js"}
+    <script>
+        var lst = getHtml('{$lst}');
+        var lst = JSON.parse(lst);
+
+        // vue 初始化
+        var vue = new Vue({
+            el: '#vue-app',
+            data: {
+                lst: lst.lst,
+                currentPage: lst.currentPage,
+                lastPage: lst.lastPage,
+                type: '', // income收入 expenditure支出
+            },
+
+            // 第一次加载钩子
+            mounted: function () {
+                this.init();
+                $('.weui-navbar a').click(function(event) {
+                    $(this).addClass('weui-bar__item--on');
+                    $(this).siblings('a').removeClass('weui-bar__item--on');
+                });
+            },
+
+            // 计算钩子
+            // watch:{
+            //     search: function(news, old){
+            //         console.log(news);
+            //         console.log(old);
+            //     }
+            // },
+
+            // 函数
+            methods: {
+
+                init : function () {
+                    var self = this;
+                },
+
+                searchClick: function(type){
+                    var self = this;
+                    self.currentPage = 1;
+                    self.lst = [];
+                    self.type = type;
+                    self.loadData(function(info){
+                        self.lst      = info.lst;
+                        self.lastPage = info.lastPage;
+                    });
+                },
+
+                loadData: function(CallBack) {
+                    var self = this;
+                    var obj = {};
+                    if(self.type) obj.type = self.type;
+                    obj.page = self.currentPage;
+                    var index = layer.load();
+                    $.post('{:url('')}', obj, function(info) {
+                        layer.close(index);
+                        var data = info.data;
+                        if(typeof CallBack == 'function') return CallBack(data);
+
+                        self.lst = self.lst.concat(data.lst);
+
+                    }, 'json');
+                },
+            }
+        });
+        pagesFun('weui-tab__bd-item');
+    </script>
+</body>
+
+</html>

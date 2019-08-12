@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="stylesheet" href="__VPAY__/assets/css/zpui.css" />
+    <link rel="stylesheet" href="__VPAY__/assets/css/all.css" />
+    <script src="__VPAY__/assets/js/page.js"></script>
+    <title> 兑换&复投 </title>
+</head>
+
+<body>
+    <div class="page pay">
+        <div class="page-hd">
+            <div class="header bor-1px-b">
+                <div class="header-left">
+                    <a href="javascript:history.go(-1)" class="left-arrow"></a>
+                </div>
+                <div class="header-title">兑换&复投</div>
+                <div class="header-right">
+                    <a href="javascript:;"></a>
+                </div>
+            </div>
+        </div>
+        <div class="page-bd">
+            <!-- 页面内容-->
+            <div class="userData">
+                <div></div>
+                <a href="{:url('User/assetsBundleDetails')}" class="dataBox">
+                    <span class="num fs38 color_3" id="assets">{$assets['asset_bundle']}</span>
+                    <p class="fs24 color_6">我的资产</p>
+                </a>
+                <div></div>
+                <a href="{:url('User/couponDetails')}" class="dataBox">
+                    <span class="num fs38 color_3" id="coupon">{$assets['coupon']}</span>
+                    <p class="fs24 color_6">EAC券</p>
+                </a>
+                <a href="{:url('User/passCardDetails')}" class="dataBox">
+                    <span class="num fs38 color_3" id="pass_card">{$assets['pass_card']}</span>
+                    <p class="fs24 color_6">EAC通证</p>
+                </a>
+                <!--<div class="dataBox">-->
+
+                <!--</div>-->
+                <a href="{:url('User/activationCodeDetails')}" class="dataBox">
+                    <span class="num fs38 color_3" id="activation">{$assets['activation_code']}</span>
+                    <p class="fs24 color_6">激活码</p>
+                </a>
+            </div>
+            <div class="butonBox">
+                <button class="fs26 buttonActive">EAC券兑EAC通证</button>
+                <button class="fs26 color_b">EAC通证复投资产</button>
+                <button class="fs26 color_b">EAC券兑激活码</button>
+                <input type="hidden" name="type" value="passCard" id="type">
+            </div>
+            <div class="weui-cells weui-cells_form">
+                <div class="bok">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label fs28 color_3">兑换数量</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" placeholder="请输入兑换数量" id="amount">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label fs28 color_3">支付密码</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="password" placeholder="请输入支付密码" id="payPwd">
+                        </div>
+                        <div class="weui-cell__ft ere">
+                            <img src="__VPAY__/assets/images/ere_no.png" alt="" data-type="no">
+                        </div>
+                    </div>
+                    <div class="fs28 color_r tips">* 100的倍数起</div>
+                </div>
+            </div>
+            <div class="butBox">
+                <div class="but fs32 fw_b color_w">确认提交</div>
+            </div>
+        </div>
+        <div id="model" class="weui-popup__container popup-center">
+            <div class="weui-popup__overlay"></div>
+            <div class="weui-popup__modal" id="popup">
+                <p class="fs32 color_3">兑换成功!</p>
+                <div class="fs26 color_3 data">兑换账号：<span>365122542425512</span></div>
+                <div class="fs26 color_3 data">兑换数量：<span>200</span></div>
+                <div class="fs26 color_3 data"><span>获得激活码</span>：<span>30.00</span></div>
+                <div class="modelBtn fs30 color_b">确定</div>
+            </div>
+        </div>
+    </div>
+    {include file="public/footer"}
+    {include file="public/js"}
+    <script>
+    $(function() {
+        $('.ere').on('click', function() {
+            let obj = $(this).find('img');
+            let typeVal = obj.attr('data-type');
+            if (typeVal == 'no') {
+                obj.attr('src', '__VPAY__/assets/images/ere_off.png')
+                obj.attr('data-type', 'off')
+                $(this).siblings('div').find('input').attr('type', 'text')
+            } else {
+                obj.attr('src', '__VPAY__/assets/images/ere_no.png')
+                obj.attr('data-type', 'no')
+                $(this).siblings('div').find('input').attr('type', 'password')
+            }
+        })
+
+        var title = {
+            passCard: '通证',
+            assets: '资产',
+            activation: '激活码',
+        };
+
+        $('.butonBox button').on('click', function() {
+            let index = $(this).index()
+            $(this).siblings('button').removeClass('buttonActive')
+            $(this).addClass('buttonActive')
+            var arr = ['passCard', 'assets', 'activation'];
+            $('#type').val(arr[index]);
+            // $('.block').eq(index).siblings().removeClass('bok')
+            // $('.block').eq(index).addClass('bok')
+        })
+        $('.but').on('click', function() {
+
+            var param    = new Object();
+            param.type   = $('#type').val();
+            param.amount = $('#amount').val();
+            param.payPwd = $('#payPwd').val();
+
+            if(param.amount == '') return layer.msg('请输入转账数量', {icon:2});
+            if(param.payPwd == '') return layer.msg('请输入支付密码', {icon:2});
+            transferAccounts(param);
+            // $.confirm({
+            //     title: '',
+            //     text: '确定要兑换码？',
+            //     onOK: function() {
+            //         transferAccounts(param);
+            //     },
+            //     onCancel: function() {}
+            // });
+        })
+
+        $('.modelBtn').click(function() {
+            $.closePopup();
+            $.post('{:url('getUserAssetsInfo')}', function(info) {
+                console.log(info);
+                var data = info.data;
+                $('#assets').text(data.asset_bundle);
+                $('#coupon').text(data.coupon);
+                $('#activation').text(data.activation_code);
+                $('#pass_card').text(data.pass_card);
+            }, 'json');
+        });
+
+        function transferAccounts(param) {
+            $.post('', param, function(info) {
+                console.log(info, 'info');
+                // return false;
+                var data = info.data;
+                if(info.code != 1) return layer.msg(info.msg, {icon:2});
+
+                $('#popup .data').eq(0).find('span').text(data.outMobile);
+                $('#popup .data').eq(1).find('span').text(data.outAmount);
+                $('#popup .data').eq(2).find('span').eq(0).text('获得' + title[param.type]);
+                $('#popup .data').eq(2).find('span').eq(1).text(data.getAmount);
+                $('#amount').val('');
+                $('#payPwd').val('');
+                $("#model").popup();
+            }, 'json');
+        }
+    })
+    </script>
+</body>
+
+</html>
