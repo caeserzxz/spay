@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=5.6.0",
-        "topthink/framework": "v5.1.37.1",
+        "topthink/framework": "v5.1.42",
         "phpoffice/phpexcel": "^1.8",
         "topthink/think-queue": "v2.0.4",
         "endroid/qrcode": "^2.5"
